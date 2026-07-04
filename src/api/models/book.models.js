@@ -18,7 +18,35 @@ const seleccionarLibroActivoPorId = (id) => {
     return connection.query(sql, [id]);
 };
 
+const insertarLibro = (titulo, genero, imagen, precio) => {
+    const sql = `
+        INSERT INTO libros(titulo, genero, imagen, precio)
+        VALUES (?, ?, ?, ?)
+    `;
+    return connection.query(sql, [titulo, genero, imagen, precio]);
+}
+
+const actualizarLibro = (titulo, genero, imagen, precio, activo, id) => {
+    const sql = `
+        UPDATE libros
+        SET titulo = ?, imagen = ?, genero = ?, precio = ?, activo = ?
+        WHERE id = ?
+    `;
+    return connection.query(sql, [titulo, genero, imagen, precio, activo, id]);
+}
+
+const eliminarLibro = (id) => {
+    const sql = `
+        DELETE FROM libros
+        WHERE id = ?
+    `;
+    return connection.query(sql, [id]);
+}
+
 export default {
     seleccionarLibrosActivos,
-    seleccionarLibroActivoPorId
+    seleccionarLibroActivoPorId,
+    insertarLibro,
+    actualizarLibro, 
+    eliminarLibro
 };

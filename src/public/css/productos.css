@@ -133,3 +133,83 @@
         justify-content: center;
     }
 }
+
+/* ---------------------------------- */
+
+/* ===== PAGINACIÓN ===== */
+.paginacion-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+}
+
+.paginacion-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.paginacion-botones {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.paginacion-botones button {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+    min-width: 32px;
+    text-align: center;
+}
+
+.paginacion-botones button:hover:not(:disabled) {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.paginacion-botones button:disabled {
+    opacity: 0.4;
+    cursor: auto;
+}
+
+.paginacion-botones .btn-numero.activo {
+    background: var(--accent);
+    color: blue;
+    border-color: var(--accent);
+    font-weight: bold;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .paginacion-wrapper {
+        padding: 0.8rem;
+        margin: 1rem 0;
+    }
+    
+    .paginacion-botones {
+        gap: 0.3rem;
+    }
+    
+    .paginacion-botones button {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+        min-width: 28px;
+    }
+    
+    .paginacion-info {
+        font-size: 0.8rem;
+    }
+}

@@ -7,15 +7,12 @@ export const indexView = async (req, res) => {
         // Log para verificar que llegan datos
         console.log("Libros activos enviados a la vista:", rows.length);
 
-        res.render("productos", {
-            titulo: "Libros",
+        res.render("/admin/dashboard", {
+            titulo: "Dashboard",
             presentacion: "Nuestros productos",
             librosArray: rows,
             empresa: "Mi Librería",
-            alumnos: ["Nicolás Pérez", "Leandro Mamani"],
-            mostrarNav: true,
-            mostrarBotonLogin: true,
-            mostrarBotonSalir: false,
+            alumnos: "Leandro Mamani",
             pagina: "productos"
         });
     } catch (error) {

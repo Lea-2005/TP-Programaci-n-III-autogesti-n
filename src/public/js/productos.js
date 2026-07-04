@@ -1,144 +1,176 @@
-let listaLibros = [];
-let generoActual = "todos";
+const LIBROS_POR_PAGINA = 20;
 
-/**
- * Función para cargar los libros activos desde la API.
-*/
-async function cargarLibrosActivos() {
-    const contenedor = document.getElementById("contenedor-libros");
+let listaLibros = [];
+let listaLibrosFiltrados = [];
+let generoActual = "todos";
+let paginaActual = 1;
+let totalPaginas = 1;
+
+// ===== FUNCIÓN DE API =====
+async function cargarLibrosActivos () {
+    const contenedorLibros = document.getElementById("contenedor-libros");
+
     try {
         const respuesta = await fetch("/api/productos");
-        
-        if (!respuesta.ok) {
-            throw new Error(`Error HTTP: ${respuesta.status}`);
-        }
+
+        if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
+
         const data = await respuesta.json();
-        listaLibros = data.payload;
-        aplicarFiltros();
+        listaLibros = data.payload || [];
+
+        listaLibrosFiltrados = [...listaLibros];
+
+        totalPaginas = Math.ceil(listaLibrosFiltrados.length / LIBROS_POR_PAGINA) || 1;
+        paginaActual = 1;
+
+        renderizarPagina();
     } catch (error) {
-        console.error("Error al intentar cargar los libros:", error);
-        contenedor.innerHTML = `
-        <p class="error">No se pudieron cargar los libros.</p>
-        `;
+        console.error("Error al cargar libros:", error);
+
+        contenedorLibros.innerHTML = `<p class="error">📛 No se pudieron cargar los libros.</p>`;
+
+        document.querySelectorAll(".contenedor-paginacion").forEach(p => p.innerHTML = "");
     }
 }
 
-/**
- * Función para renderizar tarjetas de los libros activos.
-*/
+// ===== LÓGICA DE FILTRADO =====
+function aplicarFiltros () {
+    listaLibrosFiltrados = obtenerLibrosFiltrados();
+    totalPaginas = Math.ceil(listaLibrosFiltrados.length / LIBROS_POR_PAGINA) || 1;
+
+    if (paginaActual > totalPaginas) paginaActual = 1;
+
+    renderizarPagina();
+}
+
+// Lógica separada...
+function obtenerLibrosFiltrados() {
+    const textoBuscador = document.getElementById("buscador").value.toLowerCase().trim();
+
+    // Aplicando filtro por género (con operador ternario).
+    let filtrados = (generoActual === "todos") 
+    ? [...listaLibros] 
+    : listaLibros.filter(libro => libro.genero && libro.genero.toLowerCase().trim() === generoActual);
+
+    // Aplicando filtro por título (sobre los libros filtrados).
+    if (textoBuscador) {
+        filtrados = listaLibrosFiltrados.filter(libro => libro.titulo.toLowerCase().includes(textoBuscador));
+    }
+
+    return filtrados;
+}
+
+// ===== LÓGICA DE RENDERIZADO =====
 function renderizarLibros(libros) {
-    const contenedor = document.getElementById("contenedor-libros");
+    const contenedorLibros = document.getElementById("contenedor-libros");
     
     if (!libros || libros.length === 0) {
-        contenedor.innerHTML = `
-        <p>No hay libros en esta categoría.</p>
-        `;
+        contenedorLibros.innerHTML = `<p>📛 No hay libros disponibles en esta categoría.</p>`;
         return;
     }
     
-    let plantillaHTML = ``;
+    let plantillaHTML = "";
     libros.forEach(libro => {
         plantillaHTML += `
         <div class="tarjeta-libro" data-id="tarjeta-${libro.id}" data-genero="${libro.genero}">
-        <img src="${libro.imagen}" alt="${libro.titulo}">
-        <h3>${libro.titulo}</h3>
-        <p class="libro-genero">Género: ${libro.genero}</p>
-        <p class="libro-precio">Precio: $${libro.precio}</p>
-        
-        <div class="libro-acciones">
-        <button class="btn-restar" data-id="${libro.id}">-</button>
-        
-        <button class="btn-sumar" data-id="${libro.id}">+</button>
+            <img src="${libro.imagen}" alt="${libro.titulo}">
+            <h3>${libro.titulo}</h3>
+            <p class="libro-genero">Género: ${libro.genero}</p>
+            <p class="libro-precio">Precio: $${libro.precio}</p>
+
+            <div class="libro-acciones">
+                <button class="btn-restar" data-id="${libro.id}">-</button>
+                <button class="btn-sumar" data-id="${libro.id}">+</button>
+            </div>
         </div>
-        </div>
-        `
-        /*<span class="cantidad"">${cantidad}</span>*/
+        `;
     });
-    contenedor.innerHTML = plantillaHTML;
+    contenedorLibros.innerHTML = plantillaHTML;
     configurarBotonesCarrito();
 }
 
-/**
- * Función para configurar los botones para la funcionalidad de carrito.
-*/
-function configurarBotonesCarrito() {
-    document.querySelectorAll(".btn-sumar").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const id = parseInt(e.target.dataset.id);
-            const libro = listaLibros.find(unidad => unidad.id === id);
-            if (libro) {
-                agregarAlCarrito(libro);
-            }
-        });
-    });
+function generarHTMLPaginacion(inicio, fin, total) {
+    let plantillaHTML = `
+    <div class="paginacion-tarjeta">
+        <div class="paginacion-info">
+            <p>Mostrando <span>${inicio}</span>-<span>${fin}</span> de <span>${total}</span> libros.</p>
+        </div>
 
-    document.querySelectorAll(".btn-restar").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const id = parseInt(e.target.dataset.id);
-            removerDelCarrito(id);
-        });
-    });
-}
+        <div class="paginacion-botones">
+            <button class="btn-pagina" onclick="irPagina(1)" ${paginaActual === 1 ? 'disabled' : ''}>«</button>
+            <button class="btn-pagina" onclick="cambiarPagina(-1)" ${paginaActual === 1 ? 'disabled' : ''}>‹</button>
+    `;
 
-/**
- * 
- */
-function aplicarFiltros() {
-    const buscador = document.getElementById("buscador");
-    const texto = buscador.value.toLowerCase().trim();
+    const inicioNumero = Math.max(1, (paginaActual -2));
+    const finNumero = Math.min(totalPaginas, (paginaActual + 2));
 
-    // Filtrar por género
-    let librosFiltrados = [];
-    if (generoActual === "todos") {
-        librosFiltrados = [...listaLibros];
-    } else {
-        librosFiltrados = listaLibros.filter(libro =>
-            libro.genero && libro.genero.toLowerCase().trim() === generoActual
-        );
+    for (let i = inicioNumero; i <= finNumero; i++) {
+        const activo = i === paginaActual ? "activo" : "";
+        plantillaHTML += `
+                <button class="btn-numero ${activo}" onclick="irPagina(${i})">${i}</button>
+        `;
     }
 
-    // Filtrar por texto
-    if (texto) {
-        librosFiltrados = librosFiltrados.filter(libro =>
-            libro.titulo.toLowerCase().includes(texto)
-        );
-    }
+    plantillaHTML += `
+            <button class="btn-pagina" onclick="cambiarPagina(1)" ${paginaActual === totalPaginas ? "disabled" : ""}>›</button>
+            <button class="btn-pagina" onclick="irPagina(${totalPaginas})" ${paginaActual === totalPaginas ? "disabled" : ""}>»</button>
+        </div>
+    </div>
+    `;
 
-    renderizarLibros(librosFiltrados);
+    return plantillaHTML;
 }
 
-/**
- * 
- */
-function configurarBotonesCategoria() {
-    const botones = document.querySelectorAll(".categoria-btn");
-    const buscador = document.getElementById("buscador");
+function actualizarPaginacion() {
+    const total = listaLibrosFiltrados.length;
 
-    botones.forEach(btn => {
-        btn.addEventListener("click", () => {
-            botones.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+    if (total === 0) {
+        document.querySelectorAll(".contenedor-paginacion").forEach(p => p.innerHTML = "");
+        return;
+    }
 
-            const genero = btn.dataset.categoria;
-            generoActual = genero.toLowerCase();
+    const inicio = (paginaActual - 1) * LIBROS_POR_PAGINA + 1;
+    const fin = Math.min((paginaActual * LIBROS_POR_PAGINA), total);
 
-            // Limpiamos el buscador para evitar confusión
-            buscador.value = "";
+    const plantillaHTML = generarHTMLPaginacion(inicio, fin, total);
 
-            // Aplicamos todos los filtros (género + texto vacío)
-            aplicarFiltros();
-        });
+    document.querySelectorAll(".contenedor-paginacion").forEach(p => p.innerHTML = plantillaHTML);
+}
+
+function renderizarPagina() {
+    const inicio = (paginaActual - 1) * LIBROS_POR_PAGINA;
+    const fin = Math.min((inicio + LIBROS_POR_PAGINA), listaLibrosFiltrados.length);
+    const paginaLibros = listaLibrosFiltrados.slice(inicio, fin);
+    
+    renderizarLibros(paginaLibros);
+    actualizarPaginacion();
+}
+
+// ===== FUNCIONALIDAD DE CAMBIO DE PÁGINA =====
+function irPagina (numero) {
+    if (numero < 1 || numero > totalPaginas) return;
+
+    paginaActual = numero;
+    renderizarPagina();
+    document.querySelector("main").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
     });
 }
 
-/**
- * 
- */
-function configurarBuscador() {
-    const buscador = document.getElementById("buscador");
-    buscador.addEventListener("input", aplicarFiltros);
+function cambiarPagina(delta) {
+    const nueva = paginaActual + delta;
+    if (nueva < 1 || nueva > totalPaginas) return;
+
+    paginaActual = nueva;
+    renderizarPagina();
+    document.querySelector("main").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 
+// ===== FUNCIONALIDAD DEL CARRITO =====
 function guardarCarrito(carrito) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 }
@@ -179,8 +211,54 @@ function removerDelCarrito(id) {
     }
 }
 
+// ===== CONFIGURACIÓN DE BOTONES =====
+function configurarBotonesCarrito() {
+    document.querySelectorAll(".btn-sumar").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = parseInt(e.target.dataset.id);
+            const libro = listaLibros.find(unidad => unidad.id === id);
+
+            if (libro) agregarAlCarrito(libro);
+        });
+    });
+
+    document.querySelectorAll(".btn-restar").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = parseInt(e.target.dataset.id);
+
+            removerDelCarrito(id);
+        });
+    });
+}
+
+function configurarBotonesCategorias() {
+    const botones = document.querySelectorAll(".categoria-btn");
+    const buscador = document.getElementById("buscador");
+
+    botones.forEach(btn => {
+        btn.addEventListener("click", () => {
+            botones.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            generoActual = btn.dataset.categoria.toLowerCase();
+
+            buscador.value = "";
+            aplicarFiltros();
+        });
+    });
+}
+
+function configurarBuscador() {
+    const buscador = document.getElementById("buscador");
+    buscador.addEventListener("input", aplicarFiltros);
+}
+
+// ===== INICIALIZACIÓN =====
 document.addEventListener("DOMContentLoaded", () => {
     cargarLibrosActivos();
-    configurarBotonesCategoria();
+    configurarBotonesCategorias();
     configurarBuscador();
 });
+
+window.cambiarPagina = cambiarPagina;
+window.irPagina = irPagina;
