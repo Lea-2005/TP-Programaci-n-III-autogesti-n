@@ -1,9 +1,13 @@
 import express from "express"; // Importamos express, un framework para crear el servidor web.
 import dotenv from "dotenv"; // Importamos dotenv para cargar variables de entorno desde `.env`.
 import enviroments from "./src/api/config/environments.js"; // Importamos la configuración (puerto, clave de sesión, etc).
+import session from "express-session";
 import { join, __dirname } from "./src/api/utils/utilidades.js"; // Importamos utilidades: join (para rutas) y __dirname (directorio actual).
 import { viewRoutes, productRoutes, authRoutes } from "./src/api/routes/index.js";
+import { loginView, processLoginInfo, destroyLogin } from "./src/api/controllers/auth.controllers.js";
+import { requireLogin } from "./src/api/middlewares/middlewaes.js";
 import { connectDatabase } from "./src/api/database/sequelize.js";
+import { crearLibroView, dashboardView, editarLibroView } from "./src/api/controllers/view.controllers.js";
 
 // ===== CONFIGURACIÓN INICIAL =====
 // Cargamos variables de entorno
@@ -31,6 +35,10 @@ app.use("/api/productos", productRoutes);    // API: /api/productos, etc.
  */
 app.use(express.static(join(__dirname, 'src/public')));
 
+// Configurar motor de vistas EJS (apuntando a src/views)
+app.set('views', join(__dirname, 'src/views'));
+app.set('view engine', 'ejs');
+
 /**
  * MIDDLEWARE: Parseo de datos (PREPARADO PARA EL FUTURO)
  * 
@@ -42,6 +50,13 @@ app.use(express.static(join(__dirname, 'src/public')));
  */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
+
+app.use(session({
+    secret: session_key || "secreto",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
 // ===== ENDPOINTS =====
 // ----- CLIENTE ------
@@ -100,7 +115,8 @@ app.get("/productos/detalle", (req, res) => {
 });
 
 // ------ ADMINISTRADOR ------
-// (...)
+app.use("/admin", viewRoutes);
+app.use("/auth", authRoutes);
 
 // ===== INICIALIZAR SERVIDOR =====
 await connectDatabase();

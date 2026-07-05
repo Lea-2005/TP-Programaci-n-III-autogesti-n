@@ -1,35 +1,39 @@
-import ProductModels from "../models/book.models.js";
+import BookModels from "../models/book.models.js";
 
-export const indexView = async (req, res) => {
+export const dashboardView = async (req, res) => {
     try {
-        const [rows] = await ProductModels.seleccionarLibrosActivos();
+        const libros = await BookModels.seleccionarTodosLosLibros();
+        console.log("Libros enviados a la vista:", libros.length);
 
-        // Log para verificar que llegan datos
-        console.log("Libros activos enviados a la vista:", rows.length);
-
-        res.render("/admin/dashboard", {
+        res.render("admin/dashboard", {
             titulo: "Dashboard",
-            presentacion: "Nuestros productos",
-            librosArray: rows,
-            empresa: "Mi Librería",
-            alumnos: "Leandro Mamani",
-            pagina: "productos"
+            detalle: "Lista de libros",
+            librosArray: libros,
+            error: null
         });
     } catch (error) {
-        console.error("Error en indexView:", error.mensaje);
-        res.status(500).json({
-            mensaje: "Error interno del servidor"
-        });
-    }
-};
+        console.log("Error obteniendo informacion", error.mensaje);
 
-export const carritoView = async (req, res) => {
-    try {
-        
-    } catch (error) {
-        console.error("Error en carritoView:", error.mensaje);
         res.status(500).json({
-            mensaje: "Error interno del servidor."
-        })
+            mensaje: "Error interno al cargar el dashboard."
+        });
     }
-};
+}
+
+export const crearLibroView = (req, res) => {
+    res.render("admin/crear", {
+        titulo: "Crear libro",
+    });
+}
+
+export const editarLibroView = (req, res) => {
+    res.render("admin/editar", {
+        titulo: "Editar libro",
+    });
+}
+
+export default {
+    dashboardView,
+    crearLibroView,
+    editarLibroView
+}

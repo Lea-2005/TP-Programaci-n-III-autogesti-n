@@ -59,8 +59,6 @@ function generarHTMLResumen(total) {
                 <span>$${total}</span>
             </div>
 
-            <hr>
-
             <div class="resumen-linea total">
                 <strong>Total a pagar:</strong>
                 <strong>$${total}</strong>
@@ -163,7 +161,21 @@ function limpiarCarrito() {
     cargarProductosCarrito();
 }
 
+// ===== VALIDACIÓN DEL NOMBRE =====
+function validarSesion() {
+    const nombre = localStorage.getItem("nombre-usuario");
+
+    if (!nombre) {
+        window.location.href = "/bienvenida";
+        return false;
+    }
+
+    return true;
+}
+
 // ===== INICIALIZACIÓN =====
 document.addEventListener("DOMContentLoaded", () => {
+    if (!validarSesion()) return;
+
     cargarProductosCarrito();
 });

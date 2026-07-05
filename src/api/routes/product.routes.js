@@ -3,6 +3,7 @@ import { obtenerLibrosActivos, obtenerLibroActivoPorId } from "../controllers/bo
 
 const router = Router();
 
+// Cargamos los JSON.
 router.get("/", obtenerLibrosActivos);          
 router.get("/:id", obtenerLibroActivoPorId);    
 

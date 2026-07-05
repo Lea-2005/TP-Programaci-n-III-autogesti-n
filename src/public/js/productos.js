@@ -10,7 +10,7 @@ let totalPaginas = 1;
 // ===== FUNCIÓN DE API =====
 async function cargarLibrosActivos () {
     const contenedorLibros = document.getElementById("contenedor-libros");
-
+    
     try {
         const respuesta = await fetch("/api/productos");
 
@@ -256,8 +256,22 @@ function configurarBuscador() {
     buscador.addEventListener("input", aplicarFiltros);
 }
 
+// ===== VALIDACIÓN DEL NOMBRE =====
+function validarSesion() {
+    const nombre = localStorage.getItem("nombre-usuario");
+
+    if (!nombre) {
+        window.location.href = "/bienvenida";
+        return false;
+    }
+
+    return true;
+}
+
 // ===== INICIALIZACIÓN =====
 document.addEventListener("DOMContentLoaded", () => {
+    if (!validarSesion()) return;
+
     cargarLibrosActivos();
     configurarBotonesCategorias();
     configurarBuscador();

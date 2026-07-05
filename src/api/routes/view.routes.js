@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { indexView } from "../controllers/view.controllers.js";
+import { dashboardView, crearLibroView, editarLibroView } from "../controllers/view.controllers.js";
+import { loginView } from "../controllers/auth.controllers.js";
+import { requireLogin } from "../middlewares/middlewaes.js";
 
 const router = Router();
 
-// Ruta que renderiza la vista del lado de cliente
-router.get("/productos", indexView);
+router.get("/login", loginView);
+router.get("/dashboard", requireLogin, dashboardView); 
+router.get("/crear", requireLogin, crearLibroView);
+router.get("/editar/:id", requireLogin, editarLibroView);
 
 export default router;

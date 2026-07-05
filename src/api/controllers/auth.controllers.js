@@ -1,49 +1,66 @@
 import bcrypt from "bcrypt";
+import UsuarioModels from "../models/user.models.js";
 
 export const loginView = (req, res) => {
-    //res.send("Página de login (pendiente)");
     res.render("admin/login", {
-        titulo: "Login",
-        detalle: "Introducí tu usuario.",
+        titulo: "Login admin",
+        detalle: "Iniciar sesión",
         error: null
     });
 };
 
+/*
+email
+contrasenia
+es_admin
+*/
 export const processLoginInfo = async (req, res) => {
-    //res.send("Procesando login...");
     try {
-        const { email, contraseña } = req.body;
+        const { email, contrasenia } = req.body;
+        const usuario = await UsuarioModels.seleccionarUsuarioPorEmail(email);
 
-        if (!email || !contraseña) {
-            return res.render("login");
+        if (!usuario) {
+            return res.render("admin/login", {
+                titulo: "Login admin",
+                detalle: "Iniciar sesión",
+                error: "Email inválido."
+            });
         }
 
-        const sql = "SELECT * FROM usuarios WHERE email = ? AND contrasena = ?"
-        const [rows] = await connection.query(sql, [email, contraseña])
-
-        const user = rows[0]
-        console.table(user)
-
-        req.session.user = {
-            id: user.id,
-            email: user.email,
-            contrasena: user.contrasena,
-            es_admin: user.es_admin
+        if (!usuario.contrasenia) {
+            return res.render("admin/login", {
+                titulo: "Login admin",
+                detalle: "Iniciar sesión",
+                error: "Error interno del servidor: usuario sin contraseña."
+            });
         }
 
+        const match = await bcrypt.compare(contrasenia, usuario.contrasenia);
+        console.log("Contrseña hasheada:", usuario.contrasenia);
+        console.log(match);
+
+        if (!match) {
+            return res.render("admin/login", {
+                titulo: "Login admin",
+                detalle: "Iniciar sesión",
+                error: " Email o contraseña inválidos."
+            });
+        }
+
+        req.session.usuario = { id: usuario.id, email: usuario.email }
+    
         res.redirect("/admin/dashboard");
     } catch (error) {
         console.error("Error en el login:", error);
-        res.render("admin/login").json({
-            title: "Login Admin",
-            detalle: "Intenta de nuevo.",
-            error: "Error interno del servidor" 
+        res.render("admin/login", {
+            titulo: "Login admin",
+            detalle: "Intenta de nuevo",
+            error: "Error interno del servidor."
         });
     }
-};
+}
 
 export const destroyLogin = (req, res) => {
-    //res.send("Cerrando sesión...");
     req.session.destroy((error) => {
         if (error) {
             console.error("Error al cerrar sesión:", error);
@@ -52,6 +69,6 @@ export const destroyLogin = (req, res) => {
                 mensaje: "Error al cerrar sesión."
             });
         }
-        res.redirect("/login");
+        res.redirect("/admin/login");
     });
 };

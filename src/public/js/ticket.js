@@ -133,10 +133,25 @@ function descargarPDF() {
     doc.save(`ticket-${Date.now()}.pdf`);
 }
 
+// ===== VALIDACIÓN DEL NOMBRE =====
+function validarSesion() {
+    const nombre = localStorage.getItem("nombre-usuario");
+
+    if (!nombre) {
+        window.location.href = "/bienvenida";
+        return false;
+    }
+
+    return true;
+}
+
 // ===== EVENTOS =====
 document.addEventListener("DOMContentLoaded", () => {
+    if (!validarSesion()) return;
+
     cargarTicket();
     
     document.getElementById("btn-salir").addEventListener("click", salir);
     document.getElementById("btn-descargar-pdf").addEventListener("click", descargarPDF);
+    document.getElementById("btn-descargar-pdf").addEventListener("click", salir);
 });

@@ -1,0 +1,34 @@
+<%- include("../partials/head.ejs", { titulo }) %>
+    <%- include("../partials/header.ejs") %>
+
+        <main>
+            <h2>
+                <%= detalle %>
+            </h2>
+
+            <% if (error) { %>
+                <div class="error"></div>
+                <% } %>
+                    <div class="contenedor-libros">
+                        <% librosArray.forEach(libro=> { %>
+                            <div class="tarjeta-libro">
+                                <img src="<%=libro.imagen%>" alt="<%=libro.titulo%>">
+                                <h3>
+                                    Nombre producto: <%=libro.titulo%>
+                                </h3>
+                                <p>Id: <%=libro.id%>
+                                </p>
+                                <p>Precio: $<%=libro.precio%>
+                                </p>
+                                <p>
+                                    Estado: <%=libro.activo%>
+                                </p>
+
+                                <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar</a>
+                                
+                            </div>
+                            <% }) %>
+                    </div>
+        </main>
+
+        <%- include("../partials/footer.ejs") %>

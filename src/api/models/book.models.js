@@ -22,7 +22,7 @@ const seleccionarTodosLosLibros = async () => {
     const libros = await Libros.findAll({
         attributes: ["id", "titulo", "genero", "imagen", "precio", "activo"]
     });
-    return libros ? [libros] : [];
+    return libros;
 }
 
 const insertarNuevoLibro = async (titulo, genero, imagen, precio) => {
@@ -30,13 +30,13 @@ const insertarNuevoLibro = async (titulo, genero, imagen, precio) => {
     return libroNuevo.id;
 }
 
-const actualizarLibro = async (id, titulo, genero, imagen, precio, activo) => {
-    const [libroActualizado] = await Libros.update(
+const editarLibro = async (id, titulo, genero, imagen, precio, activo) => {
+    const [libroEditado] = await Libros.update(
         { titulo, genero, imagen, precio, activo },
         {
             where: { id }
         });
-    return libroActualizado;
+    return libroEditado;
 }
 
 const alternarEstadoLibro = async (id, activo) => {
@@ -56,6 +56,6 @@ export default {
     // ADMIN:
     seleccionarTodosLosLibros,
     insertarNuevoLibro,
-    actualizarLibro,
+    editarLibro,
     alternarEstadoLibro
 };
