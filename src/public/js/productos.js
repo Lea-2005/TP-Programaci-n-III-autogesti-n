@@ -1,3 +1,4 @@
+// ===== DATOS INICIALES =====
 const LIBROS_POR_PAGINA = 20;
 
 let listaLibros = [];
@@ -82,6 +83,8 @@ function renderizarLibros(libros) {
                 <button class="btn-restar" data-id="${libro.id}">-</button>
                 <button class="btn-sumar" data-id="${libro.id}">+</button>
             </div>
+
+            <a href="/productos/detalle">Ver detalles</a>
         </div>
         `;
     });
@@ -172,7 +175,7 @@ function cambiarPagina(delta) {
 
 // ===== FUNCIONALIDAD DEL CARRITO =====
 function guardarCarrito(carrito) {
-    localStorage.setItem('carrito', JSON.stringify(carrito));
+    localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
 function obtenerCarrito() {

@@ -89,6 +89,15 @@ app.get("/ticket", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/ticket.html'));
 });
 
+/**
+ * ENDPOINT DETALLE: /detalle:id
+ * 
+ * Muestra los detalles de un producto mediante su ID.
+ */
+app.get("/productos/detalle", (req, res) => {
+    res.sendFile(join(__dirname, 'src/public/html/detalle.html'));
+});
+
 // ------ ADMINISTRADOR ------
 // (...)
 

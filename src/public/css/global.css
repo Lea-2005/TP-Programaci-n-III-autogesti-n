@@ -8,7 +8,7 @@
     /* Colores de texto */
     --color-texto-primario: #212529;
     --color-texto-secundario: #495057;
-    --color-precio: #aa8639;
+    --color-precio: #ac7a10;
     
     /* Color de bordes, sombra y acentos */
     --color-borde: #c9d2db;
@@ -36,6 +36,7 @@ body.dark-mode {
     /* Colores de texto */
     --color-texto-primario: #e9ecef;
     --color-texto-secundario: #ced4da;
+    --color-precio: #f5b323;
     
     /* Color de bordes, sombra y acentos */
     --color-borde: #2d3748;
@@ -44,7 +45,7 @@ body.dark-mode {
     --color-acento-hover: #6a9dfa;
 }
 
-/* ---------------------------- */
+/* ----- ARREGLOS ------ */
 * {
     margin: 0;
     padding: 0;
@@ -83,6 +84,7 @@ header h1 {
     font-weight: 600;
 }
 
+/* ----- NAV ----- */
 nav {
     display: flex;
     gap: 1rem;
@@ -120,21 +122,6 @@ nav a.active {
 
 #btn-tema:hover {
     transform: scale(1.1);
-}
-
-#buscador {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--color-borde);
-    border-radius: var(--radio);
-    background-color: var(--color-fondo-primario);
-    color: var(--color-texto-primario);
-    width: 300px;
-    font-size: 1rem;
-}
-
-#buscador:focus {
-    outline: none;
-    border-color: var(--color-acento);
 }
 
 /* ----- MAIN ----- */
@@ -194,7 +181,7 @@ footer {
 }
 
 /* ----- RESPONSIVE ----- */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     header {
         flex-direction: column;
         align-items: stretch;

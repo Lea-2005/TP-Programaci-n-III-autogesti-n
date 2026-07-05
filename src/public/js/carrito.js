@@ -1,5 +1,5 @@
-function obtenerCarrito() 
-{
+// ===== FUNCIONALIDAD BÁSICA DEL CARRITO =====
+function obtenerCarrito() {
     const carritoJSON = localStorage.getItem("carrito");
     if (carritoJSON) {
         return JSON.parse(carritoJSON);
@@ -7,14 +7,79 @@ function obtenerCarrito()
     return [];
 }
 
-function cargarProductosCarrito() {
-    const contenedor = document.getElementById("contenedor-carrito");
-    const carrito = obtenerCarrito();
+function guardarCarrito(carrito) {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+// ===== LÓGICA DE RENDERIZADO =====
+function generarHTMLProductos(carrito) {
     let plantillaHTML = "";
-    let total = 0;
+
+    carrito.forEach(libro => {
+        const subtotal = libro.precio * libro.cantidad;
+
+        let opciones = "";
+        for (let i = 1; i <= 10; i++) {
+            opciones += `<option value="${i}" ${i === libro.cantidad ? "selected" : ""}>${i}</option>`;
+        }
+
+        plantillaHTML += `
+            <div class="producto-carrito" data-id="${libro.id}">
+                <img src="${libro.imagen}" alt="${libro.titulo}" class="producto-imagen">
+
+                <div class="producto-info">
+                    <h3 class="producto-titulo">${libro.titulo}</h3>
+                    <p class="producto-genero">${libro.genero}</p>
+                    <p class="producto-precio-unitario">Precio unitario: $${libro.precio}</p>
+
+                    <div class="producto-controles">
+                        <label>Cantidad:
+                            <select class="select-cantidad" data-id="${libro.id}">
+                                ${opciones}
+                            </select>
+                        </label>
+                        <button class="btn-eliminar-producto" data-id="${libro.id}">Eliminar</button>
+                    </div>
+
+                    <p class="producto-subtotal">Subtotal: $${subtotal}</p>
+                </div>
+            </div>
+        `;
+    });
+    return plantillaHTML;
+}
+
+function generarHTMLResumen(total) {
+    return `
+        <div class="resumen-pedido">
+            <h3>Resumen del pedido</h3>
+
+            <div class="resumen-linea">
+                <span>Productos:</span>
+                <span>$${total}</span>
+            </div>
+
+            <hr>
+
+            <div class="resumen-linea total">
+                <strong>Total a pagar:</strong>
+                <strong>$${total}</strong>
+            </div>
+
+            <div class="resumen-acciones">
+                <a href="/ticket" class="btn-finalizar">Finalizar compra</a>
+                <button class="btn-limpiar-carrito">Limpiar carrito</button>
+            </div>
+        </div>
+    `;
+}
+
+function cargarProductosCarrito() {
+    const contenedorCarrito = document.getElementById("contenedor-carrito");
+    const carrito = obtenerCarrito();
 
     if (carrito.length === 0) {
-        contenedor.innerHTML = `
+        contenedorCarrito.innerHTML = `
             <div class="carrito-vacio">
                 <h3>No tenés productos en el carrito. ¿Todavía no encontrás lo que buscas?</h3>
                 <p>Explora nuestros libros acá:</p>
@@ -22,56 +87,83 @@ function cargarProductosCarrito() {
             </div>
         `;
         return;
-    } 
+    }
 
-    carrito.forEach(libro => {
-        const subtotal = libro.precio * libro.cantidad;
-        total += subtotal;
+    const totalGeneral = carrito.reduce((acc, libro) => acc + (libro.precio * libro.cantidad), 0);
 
-        plantillaHTML += `
-            <div class="tarjeta-carrito" data-id="${libro.id}">
-                <img src="${libro.imagen}" alt="${libro.titulo}">
-               
-                <h3 class="libro-titulo">${libro.titulo}</h3>
-                <p class="libro-genero">${libro.genero}</p>
-                <p class="libro-precio">$${libro.precio}</p>
+    const htmlProductos = generarHTMLProductos(carrito);
+    const htmlResumen = generarHTMLResumen(totalGeneral);
 
-                <div class="carrito-acciones">
-                    <button class="btn-restar" data-id="${libro.id}">-</button>
-                    <span>${libro.cantidad}</span>
-                    <button class="btn-sumar" data-id="${libro.id}">+</button>
-                    <button class="btn-borrar-producto" data-id="${libro.id}">🗑</button>
-                </div>
-        `;
-    });
-
-    plantillaHTML += `
-        <div class="carrito-resumen">
-            <h2 id="valor-final">El valor final a pagar es de: $${total}</h2>
-            <button class="btn-limpiar-carrito">Limpiar carrito</button>
-            <a href="/ticket">Ver ticket (finalizar compra)</a>
+    contenedorCarrito.innerHTML = `
+        <div class="carrito-tarjeta">
+            <div class="carrito-lista">
+                ${htmlProductos}
+            </div>
+            <div class="carrito-resumen">
+                ${htmlResumen}
+            </div>
         </div>
     `;
 
-    contenedor.innerHTML += plantillaHTML;
+    configurarEventosCarrito();
 }
 
-function limpiarCarrito()  {    
-    // Validando para mostrar mensaje por si el carrito ya se encuentra vacío.
-    let carrito = obtenerCarrito();
+// ===== FUNCIONALIDAD DE LA LÓGICA DEL CARRITO =====
+function configurarEventosCarrito() {
+    document.querySelectorAll(".select-cantidad").forEach(select => {
+        select.addEventListener("change", (e) => {
+            const id = parseInt(e.target.dataset.id);
+            const nuevaCantidad = parseInt(e.target.value);
+            actualizarCantidad(id, nuevaCantidad);
+        });
+    });
 
-    if (carrito.length > 0) {
-        localStorage.removeItem("carrito");
-        cargarProductosCarrito();
-    } 
-}
+    document.querySelectorAll(".btn-eliminar-producto").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = parseInt(e.target.dataset.id);
+            eliminarProducto(id);
+        });
+    });
 
-// Asociar evento al botón cuando la página carga 
-window.addEventListener("DOMContentLoaded", () => {
-    cargarProductosCarrito();
-    
     const btnLimpiar = document.querySelector(".btn-limpiar-carrito");
     if (btnLimpiar) {
         btnLimpiar.addEventListener("click", limpiarCarrito);
     }
+}
+
+function actualizarCantidad(id, nuevaCantidad) {
+    let carrito = obtenerCarrito();
+    const producto = carrito.find(item => item.id === id);
+    if (producto) {
+        if (nuevaCantidad <= 0) {
+            carrito = carrito.filter(item => item.id !== id);
+        } else {
+            producto.cantidad = nuevaCantidad;
+        }
+        guardarCarrito(carrito);
+        cargarProductosCarrito();
+    }
+}
+
+function eliminarProducto(id) {
+    let carrito = obtenerCarrito();
+    const producto = carrito.find(item => item.id === id);
+    if (!producto) return;
+
+    carrito = carrito.filter(item => item.id !== id);
+    guardarCarrito(carrito);
+    cargarProductosCarrito();
+}
+
+function limpiarCarrito() {
+    const carrito = obtenerCarrito();
+    if (carrito.length === 0) return;
+    
+    localStorage.removeItem("carrito");
+    cargarProductosCarrito();
+}
+
+// ===== INICIALIZACIÓN =====
+document.addEventListener("DOMContentLoaded", () => {
+    cargarProductosCarrito();
 });

@@ -1,0 +1,208 @@
+.carrito-tarjeta {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* ----- LISTA DE PRODUCTOS DEL CARRITO ----- */
+.carrito-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.producto-carrito {
+    display: flex;
+    gap: 1.5rem;
+    background: var(--color-tarjeta);
+    border-radius: var(--radio);
+    padding: 1rem;
+    border: 1px solid var(--color-borde);
+    align-items: center;
+}
+
+.producto-imagen {
+    width: 120px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: var(--radio);
+    border: 1px solid var(--color-borde);
+}
+
+.producto-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.producto-titulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.producto-genero {
+    font-size: 0.9rem;
+    color: var(--color-texto-secundario);
+}
+
+.producto-precio-unitario {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.producto-controles {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.select-cantidad {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+    background: var(--color-fondo-primario);
+    color: var(--color-texto-primario);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.btn-eliminar-producto {
+    background: none;
+    border: 1px solid var(--color-btn-resta);
+    color: var(--color-btn-resta);
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--radio);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-eliminar-producto:hover {
+    background: var(--color-btn-resta);
+    color: #fff;
+}
+
+.producto-subtotal {
+    font-weight: 700;
+    color: var(--color-precio);
+    margin-top: 0.3rem;
+}
+
+/* ----- RESUMEN DEL CARRITO ----- */
+.carrito-resumen {
+    background: var(--color-fondo-secundario);
+    border-radius: var(--radio);
+    padding: 1.5rem;
+    border: 1px solid var(--color-borde);
+    align-self: start;
+    position: sticky;
+    top: 1rem;
+}
+
+.resumen-pedido h3 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.resumen-linea {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.resumen-linea.total {
+    font-size: 1.2rem;
+    border-top: 2px solid var(--color-borde);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+.resumen-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+}
+
+.btn-finalizar {
+    display: inline-block;
+    background: var(--color-acento);
+    color: #fff;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radio);
+    text-align: center;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-finalizar:hover {
+    background: var(--color-acento-hover);
+    color: #fff;
+}
+
+.btn-limpiar-carrito {
+    background: none;
+    border: 1px solid var(--color-borde);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radio);
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--color-texto-primario);
+}
+
+.btn-limpiar-carrito:hover {
+    background: var(--color-btn-resta);
+    color: #fff;
+    border-color: var(--color-btn-resta);
+}
+
+/* ----- ESTADO VACÍO ----- */
+.carrito-vacio {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.carrito-vacio a {
+    display: inline-block;
+    margin-top: 1rem;
+    background: var(--color-acento);
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: var(--radio);
+}
+
+.carrito-vacio a:hover {
+    background: var(--color-acento-hover);
+}
+
+/* ----- RESPONSIVE ----- */
+@media (max-width: 600px) {
+    .carrito-tarjeta {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .carrito-resumen {
+        position: static;
+    }
+
+    .producto-carrito {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .producto-imagen {
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+    }
+
+    .producto-controles {
+        justify-content: center;
+    }
+}
