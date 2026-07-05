@@ -2,7 +2,7 @@ import ProductModels from "../models/book.models.js";
 
 export const obtenerLibrosActivos = async (req, res) => {
     try {
-        const [rows] = await ProductModels.seleccionarLibrosActivos();
+        const rows = await ProductModels.seleccionarLibrosActivos();
 
         if (rows.length === 0) {
             return res.status(404).json({ 

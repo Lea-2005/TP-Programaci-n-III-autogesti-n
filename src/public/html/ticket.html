@@ -6,9 +6,10 @@
         <title>Librería | Ticket</title>
         <link rel="stylesheet" href="../css/global.css">
         
-        <script src="../js/index.js"></script>
+        <script src="../js/tema.js"></script>
         <script src="../js/ticket.js"></script>
-</head>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <body>
     <header>
         <div class="header-left">
@@ -20,10 +21,42 @@
     </header>
 
     <main>
-        <h2 class="pg-titulo">Ticket de compra</h2>
-        <div class="ticket-container" id="ticket-container">
-            <button id="btn-salir">Salir</button>
-            <button class="btn-descargar-ticket">Descargar ticket</button>
+        <div class="contenedor-ticket">
+            <div class="ticket-header">
+                <h2 class="pg-titulo">Ticket de compra</h2>
+                <p class="fecha">Fecha: <span id="fecha-hora"></span></p>
+                <p class="cliente">Cliente: <span id="nombre-cliente"></span></p>
+            </div>
+
+            <div class="ticket-info">
+                <table class="tabla-ticket">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        <thead>
+                            <tbody id="tabla-ticket-info">
+                                <!--
+                                JavaScript
+                                -->
+                            </tbody>
+                        </thead>
+                    </thead>
+                </table>
+            </div>
+            
+            <div class="ticket-footer">
+                <p><strong>TOTAL:</strong></p>
+                <p><span id="total-general"></span></p>
+            </div>
+
+            <div class="ticket-acciones">
+                <button id="btn-descargar-pdf">Imprimir ticket</button>
+                <button id="btn-salir">Salir</button>
+            </div>
         </div>
     </main>
 

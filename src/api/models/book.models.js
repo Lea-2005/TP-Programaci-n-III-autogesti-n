@@ -1,52 +1,61 @@
-import connection from "../database/ddbb.js";
+import { Libros } from "./general.models.js";
 
-const seleccionarLibrosActivos = () => {
-    const sql = `
-        SELECT id, titulo, genero, imagen, precio
-        FROM libros
-        WHERE activo = 1
-    `;
-    return connection.query(sql);
-};
-
-const seleccionarLibroActivoPorId = (id) => {
-    const sql = `
-        SELECT id, titulo, genero, imagen, precio
-        FROM libros
-        WHERE id = ? AND activo = 1
-    `;
-    return connection.query(sql, [id]);
-};
-
-const insertarLibro = (titulo, genero, imagen, precio) => {
-    const sql = `
-        INSERT INTO libros(titulo, genero, imagen, precio)
-        VALUES (?, ?, ?, ?)
-    `;
-    return connection.query(sql, [titulo, genero, imagen, precio]);
+// ====== MODELOS DEL CLIENTE ======
+const seleccionarLibrosActivos = async () => {
+    const librosActivos = await Libros.findAll({
+        attributes: ["id", "titulo", "genero", "imagen", "precio"],
+        where: { activo: true }
+    });
+    return librosActivos;
 }
 
-const actualizarLibro = (titulo, genero, imagen, precio, activo, id) => {
-    const sql = `
-        UPDATE libros
-        SET titulo = ?, imagen = ?, genero = ?, precio = ?, activo = ?
-        WHERE id = ?
-    `;
-    return connection.query(sql, [titulo, genero, imagen, precio, activo, id]);
+const seleccionarLibroActivoPorId = async (id) => {
+    const libro = await Libros.findByPk(id, {
+        where: { activo: true },
+        attributes: ["id", "titulo", "genero", "imagen", "precio"]
+    });
+    return libro;
 }
 
-const eliminarLibro = (id) => {
-    const sql = `
-        DELETE FROM libros
-        WHERE id = ?
-    `;
-    return connection.query(sql, [id]);
+// ====== MODELOS DEL ADMINISTRADOR ======
+const seleccionarTodosLosLibros = async () => {
+    const libros = await Libros.findAll({
+        attributes: ["id", "titulo", "genero", "imagen", "precio", "activo"]
+    });
+    return libros ? [libros] : [];
+}
+
+const insertarNuevoLibro = async (titulo, genero, imagen, precio) => {
+    const libroNuevo = await Libros.create({ titulo, genero, imagen, precio });
+    return libroNuevo.id;
+}
+
+const actualizarLibro = async (id, titulo, genero, imagen, precio, activo) => {
+    const [libroActualizado] = await Libros.update(
+        { titulo, genero, imagen, precio, activo },
+        {
+            where: { id }
+        });
+    return libroActualizado;
+}
+
+const alternarEstadoLibro = async (id, activo) => {
+    const [libroAlternado] = await Libros.update(
+        { activo },
+        {
+            where: { id }
+        }
+    );
+    return libroAlternado;
 }
 
 export default {
+    // CLIENTE:
     seleccionarLibrosActivos,
     seleccionarLibroActivoPorId,
-    insertarLibro,
-    actualizarLibro, 
-    eliminarLibro
+    // ADMIN:
+    seleccionarTodosLosLibros,
+    insertarNuevoLibro,
+    actualizarLibro,
+    alternarEstadoLibro
 };

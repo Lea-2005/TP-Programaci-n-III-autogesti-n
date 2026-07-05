@@ -3,6 +3,7 @@ import dotenv from "dotenv"; // Importamos dotenv para cargar variables de entor
 import enviroments from "./src/api/config/environments.js"; // Importamos la configuración (puerto, clave de sesión, etc).
 import { join, __dirname } from "./src/api/utils/utilidades.js"; // Importamos utilidades: join (para rutas) y __dirname (directorio actual).
 import { viewRoutes, productRoutes, authRoutes } from "./src/api/routes/index.js";
+import { connectDatabase } from "./src/api/database/sequelize.js";
 
 // ===== CONFIGURACIÓN INICIAL =====
 // Cargamos variables de entorno
@@ -102,6 +103,8 @@ app.get("/productos/detalle", (req, res) => {
 // (...)
 
 // ===== INICIALIZAR SERVIDOR =====
+await connectDatabase();
+
 app.listen(PORT, () => {
     console.log('='.repeat(50))
     console.log(`⚙ Servidor corriendo en 'http://localhost:${PORT}'`);
