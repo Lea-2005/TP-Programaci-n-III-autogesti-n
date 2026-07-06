@@ -163,7 +163,7 @@ function limpiarCarrito() {
 
 // ===== VALIDACIÓN DEL NOMBRE =====
 function validarSesion() {
-    const nombre = localStorage.getItem("nombre-usuario");
+    const nombre = localStorage.getItem("nombre_usuario");
 
     if (!nombre) {
         window.location.href = "/bienvenida";

@@ -14,7 +14,7 @@ CREATE TABLE libros (
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(50) NOT NULL,
-    contrasenia VARCHAR(20) NOT NULL,
+    contrasenia VARCHAR(60) NOT NULL,
     es_admin BOOLEAN DEFAULT FALSE
 );
 
@@ -26,9 +26,11 @@ CREATE TABLE ventas (
 );
 
 CREATE TABLE ventas_libros (
-    id INT PRIMARY KEY NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     id_venta INT NOT NULL,
     id_libro INT NOT NULL,
+    cantidad INT NOT NULL DEFAULT 1,
+    precio_unitario DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (id_venta) REFERENCES ventas(id),
     FOREIGN KEY (id_libro) REFERENCES libros(id)
 );
@@ -152,3 +154,7 @@ INSERT INTO libros (titulo, genero, imagen, precio) VALUES
     ('La dama de las camelias', 'Romance', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP6fyXl7ZG055xwr3FwAkBRBjHyB3rI1uzGYrZXiwSXyB6JhFUMDZaqn2U&s=10', 10200),
     ('Faustine - Cambios de Otoño', 'Romance', 'https://autoresdeargentina.com/wp-content/uploads/2023/06/4648-Iacono-BW-scaled-1.jpg', 9000),
     ('Faustine II - La Marquesa de las Perlas', 'Romance', 'https://autoresdeargentina.com/wp-content/uploads/2023/06/5256-IACONO-BW-scaled-1.jpg', 10000);
+
+-- Insertando email y contraseña:
+INSERT INTO usuarios (email, contrasenia, es_admin) VALUES
+    ('admin@ejemplo.com', '$2b$10$.GgrYQZT44DJ65kjJUVw5O0AMdCmL/.Tr1CQqxrmx7STbuCeU9dOe', 1);

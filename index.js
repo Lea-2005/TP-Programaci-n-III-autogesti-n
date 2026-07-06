@@ -3,7 +3,7 @@ import dotenv from "dotenv"; // Importamos dotenv para cargar variables de entor
 import enviroments from "./src/api/config/environments.js"; // Importamos la configuración (puerto, clave de sesión, etc).
 import session from "express-session";
 import { join, __dirname } from "./src/api/utils/utilidades.js"; // Importamos utilidades: join (para rutas) y __dirname (directorio actual).
-import { viewRoutes, productRoutes, authRoutes } from "./src/api/routes/index.js";
+import { viewRoutes, productRoutes, authRoutes, saleRoutes } from "./src/api/routes/index.js";
 import { loginView, processLoginInfo, destroyLogin } from "./src/api/controllers/auth.controllers.js";
 import { requireLogin } from "./src/api/middlewares/middlewaes.js";
 import { connectDatabase } from "./src/api/database/sequelize.js";
@@ -20,9 +20,6 @@ const PORT = port || 3000;
 // Creamos la aplicación Express
 const app = express();
 
-// Montar routers
-app.use("/api/productos", productRoutes);    // API: /api/productos, etc.
-
 // ===== MIDDLEWARES =====
 /**
  * MIDDLEWARE: Archivos estáticos
@@ -32,7 +29,7 @@ app.use("/api/productos", productRoutes);    // API: /api/productos, etc.
  *   http://localhost:3000/css/global.css
  *   http://localhost:3000/js/productos.js
  *   http://localhost:3000/html/productos.html
- */
+*/
 app.use(express.static(join(__dirname, 'src/public')));
 
 // Configurar motor de vistas EJS (apuntando a src/views)
@@ -47,7 +44,7 @@ app.set('view engine', 'ejs');
  * - express.json(): Procesar peticiones API con JSON
  * 
  * Estos middlewares hacen que los datos estén disponibles en req.body
- */
+*/
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
@@ -64,7 +61,7 @@ app.use(session({
  * ENDPOINT RAÍZ: /
  * 
  * Corrabora que el servidor este funcionando y guía hacía las páginas iniciales de cada sección del proyecto.
- */
+*/
 app.get("/", (req, res) => {
     res.redirect("/bienvenida");
 });
@@ -73,7 +70,7 @@ app.get("/", (req, res) => {
  * ENDPOINT BIENVENIDA: /bienvenida
  * 
  * Página de bienvenida para nuevos usuarios.
- */
+*/
 app.get("/bienvenida", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/bienvenida.html'));
 });
@@ -82,7 +79,7 @@ app.get("/bienvenida", (req, res) => {
  * ENDPOINT PRODUCTOS: /productos
  * 
  * Muestra el catálogo de libros activos.
- */
+*/
 app.get("/productos", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/productos.html'));
 });
@@ -91,7 +88,7 @@ app.get("/productos", (req, res) => {
  * ENDPOINT CARRITO: /carrito
  * 
  * Muestra el carrito de compras del usuario.
- */
+*/
 app.get("/carrito", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/carrito.html'));
 });
@@ -100,7 +97,7 @@ app.get("/carrito", (req, res) => {
  * ENDPOINT TICKET: /ticket
  * 
  * Muestra el ticket/resumen de la compra realizada.
- */
+*/
 app.get("/ticket", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/ticket.html'));
 });
@@ -109,7 +106,7 @@ app.get("/ticket", (req, res) => {
  * ENDPOINT DETALLE: /detalle:id
  * 
  * Muestra los detalles de un producto mediante su ID.
- */
+*/
 app.get("/productos/detalle", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/detalle.html'));
 });
@@ -117,6 +114,10 @@ app.get("/productos/detalle", (req, res) => {
 // ------ ADMINISTRADOR ------
 app.use("/admin", viewRoutes);
 app.use("/auth", authRoutes);
+
+// Montar routers
+app.use("/api/productos", productRoutes);    // API: /api/productos.
+app.use("/api/ventas", saleRoutes);    // API: /api/ventas.
 
 // ===== INICIALIZAR SERVIDOR =====
 await connectDatabase();
@@ -135,5 +136,5 @@ app.use((req, res) => {
         <h1>404 - Página no encontrada</h1>
         <p>La ruta que buscas no existe.</p>
         <a href="/">⬅ Volver al inicio</a>
-    `);
-});
+        `);
+    });

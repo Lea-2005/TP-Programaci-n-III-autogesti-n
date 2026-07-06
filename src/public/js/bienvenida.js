@@ -10,7 +10,7 @@ function configurarFormularioBienvenida() {
             return;
         } 
 
-        localStorage.setItem("nombre-usuario", nombre);
+        localStorage.setItem("nombre_usuario", nombre);
         window.location.href = "/productos";
     });
 }

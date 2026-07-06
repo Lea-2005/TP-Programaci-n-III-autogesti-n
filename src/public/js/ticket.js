@@ -8,7 +8,7 @@ function obtenerCarrito() {
 }
 
 function obtenerNombreUsuario() {
-    return localStorage.getItem("nombre-usuario") || "Invitado";
+    return localStorage.getItem("nombre_usuario");
 }
 
 function cargarTicket() {
@@ -41,16 +41,55 @@ function cargarTicket() {
     totalSpan.textContent = total.toFixed(2);
 }
 
-function salir() {
+async function registrarVentas () {
+    const carrito = obtenerCarrito();
+    const nombreUsuario = obtenerNombreUsuario();
+    const precio_total = carrito.reduce((suma, libro) => suma + libro.precio * libro.cantidad, 0);
+
+    try {
+        const respuesta = await fetch("/api/ventas/", {
+            method: "POST",
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify({
+                nombre_usuario: nombreUsuario,
+                libros: carrito.map(libro => ({ 
+                    id: libro.id,
+                    cantidad: libro.cantidad,
+                    precio: libro.precio
+                })),
+                precio_total: precio_total
+            })
+        });
+
+        const data = await respuesta.json();
+
+        if (!respuesta.ok) throw new Error(data.error);
+        
+        console.log("Venta registrada:", data);
+    } catch (error) {
+        console.error("Error al registrar la venta:", error);
+    }   
+}
+
+async function salir() {
+    try {
+        await registrarVentas();
+    } catch (error) {
+        console.error("Error al estar saliendo de la pantalla de ticket", error);
+    }
+
     // Limpia el localStorage (carrito y nombre de usuario)
     localStorage.removeItem("carrito");
-    localStorage.removeItem("nombre-usuario");
+    localStorage.removeItem("nombre_usuario");
     // Redirige a la pantalla de bienvenida (el flujo se reinicia)
     window.location.href = "/bienvenida";
 }
 
+
 // ===== FUNCIÓN PARA DESCARGAR PDF =====
 function descargarPDF() {
+    registrarVentas();
+
     const carrito = obtenerCarrito();
     const fechaActual = new Date().toLocaleString();
     const nombreUsuario = obtenerNombreUsuario();
@@ -131,11 +170,18 @@ function descargarPDF() {
     y += 8;
 
     doc.save(`ticket-${Date.now()}.pdf`);
+
+    // -----------------------------------------------------
+    // Limpia el localStorage (carrito y nombre de usuario)
+    localStorage.removeItem("carrito");
+    localStorage.removeItem("nombre_usuario");
+    // Redirige a la pantalla de bienvenida (el flujo se reinicia)
+    window.location.href = "/bienvenida";
 }
 
 // ===== VALIDACIÓN DEL NOMBRE =====
 function validarSesion() {
-    const nombre = localStorage.getItem("nombre-usuario");
+    const nombre = localStorage.getItem("nombre_usuario");
 
     if (!nombre) {
         window.location.href = "/bienvenida";
@@ -153,5 +199,4 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.getElementById("btn-salir").addEventListener("click", salir);
     document.getElementById("btn-descargar-pdf").addEventListener("click", descargarPDF);
-    document.getElementById("btn-descargar-pdf").addEventListener("click", salir);
 });

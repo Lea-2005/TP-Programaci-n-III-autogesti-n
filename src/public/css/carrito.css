@@ -156,8 +156,8 @@
 
 .btn-limpiar-carrito:hover {
     background: var(--color-btn-resta);
-    color: #fff;
     border-color: var(--color-btn-resta);
+    color: #fff;
 }
 
 /* ----- ESTADO VACÍO ----- */

@@ -84,6 +84,20 @@ header h1 {
     font-weight: 600;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-left .logo {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-acento);
+}
+
 /* ----- NAV ----- */
 nav {
     display: flex;

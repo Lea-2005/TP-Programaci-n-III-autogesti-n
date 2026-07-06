@@ -1,0 +1,80 @@
+/* ticket.css o dentro de global.css */
+.contenedor-ticket {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: var(--radio);
+    border: 1px solid #ccc;
+    box-shadow: var(--color-sombra);
+    background: var(--color-tarjeta);
+}
+.ticket-header {
+    text-align: center;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 1rem;
+}
+.ticket-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+.ticket-header p {
+    margin: 0.2rem 0;
+    color: var(--color-texto-principal);
+}
+.tabla-ticket {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+.tabla-ticket th {
+    text-align: left;
+    padding: 0.5rem;
+}
+.tabla-ticket td {
+    padding: 0.4rem 0.5rem;
+    border-bottom: var(--radio);
+}
+.ticket-footer {
+    text-align: right;
+    font-size: 1.2rem;
+    border-top: 2px dashed #ccc;
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+.ticket-acciones {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+.ticket-acciones button {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: var(--radio);
+    cursor: pointer;
+}
+#btn-descargar-pdf {
+    background: var(--color-acento);
+    color: #fff;
+}
+
+#btn-descargar-pdf:hover {
+    background: var(--color-acento-hover);
+    color: #fff;
+}
+
+#btn-salir {
+    background: none;
+    border: 1px solid var(--color-borde);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radio);
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--color-texto-primario);
+}
+
+#btn-salir:hover {
+    background: var(--color-btn-resta);
+    border-color: var(--color-btn-resta);
+    color: #fff;
+}
