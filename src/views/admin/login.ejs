@@ -1,22 +1,26 @@
 <%- include("../partials/head.ejs", { titulo }) %>
-    <%- include("../partials/header.ejs") %>
+<%- include("../partials/header.ejs", { rutaActual }) %>
 
-        <h2>
-            <%= detalle %>
-        </h2>
+<main>
+    <div class="login-container">
+        <h2><%= detalle %></h2>
+
         <form id="login-form" action="/auth/" method="POST">
-            <input type="email" name="email" id="emailUser" placeholder="Email" required>
-            <input type="password" name="contrasenia" id="passwordUser" placeholder="Password" required>
-
-            <input type="submit" value="Login">
-        </form>
-
-        <section class="seccion-libros">
-            <hr>
-            <div id="contenedor-libros">
-
+            <div class="campo">
+                <label for="correoUsuario">Correo electrónico</label>
+                <input type="email" name="email" id="correoUsuario" placeholder="correo@ejemplo.com" required>
             </div>
-        </section>
-        </main>
 
-        <%- include("../partials/footer.ejs") %>
+            <div class="campo">
+                <label for="contraseniaUsuario">Contraseña</label>
+                <input type="password" name="contrasenia" id="contraseniaUsuario" placeholder="••••••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-ingresar">Ingresar</button>
+
+            <button type="button" id="btn-autocompletar" class="btn-rapido">Acceso rápido</button>
+        </form>
+    </div>
+</main>
+
+<%- include("../partials/footer.ejs") %>

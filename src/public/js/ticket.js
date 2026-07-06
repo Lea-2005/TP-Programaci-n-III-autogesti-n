@@ -71,20 +71,21 @@ async function registrarVentas () {
     }   
 }
 
+function limpiarLocal() {
+    // Limpia el localStorage (carrito y nombre de usuario)
+    localStorage.removeItem("carrito");
+    localStorage.removeItem("nombre_usuario");
+}
+
 async function salir() {
     try {
         await registrarVentas();
     } catch (error) {
         console.error("Error al estar saliendo de la pantalla de ticket", error);
     }
-
-    // Limpia el localStorage (carrito y nombre de usuario)
-    localStorage.removeItem("carrito");
-    localStorage.removeItem("nombre_usuario");
-    // Redirige a la pantalla de bienvenida (el flujo se reinicia)
-    window.location.href = "/bienvenida";
+    limpiarLocal();
+    window.location.href = "/encuesta";
 }
-
 
 // ===== FUNCIÓN PARA DESCARGAR PDF =====
 function descargarPDF() {
@@ -170,13 +171,8 @@ function descargarPDF() {
     y += 8;
 
     doc.save(`ticket-${Date.now()}.pdf`);
-
-    // -----------------------------------------------------
-    // Limpia el localStorage (carrito y nombre de usuario)
-    localStorage.removeItem("carrito");
-    localStorage.removeItem("nombre_usuario");
-    // Redirige a la pantalla de bienvenida (el flujo se reinicia)
-    window.location.href = "/bienvenida";
+    limpiarLocal();
+    window.location.href = "/encuesta";
 }
 
 // ===== VALIDACIÓN DEL NOMBRE =====
@@ -187,7 +183,6 @@ function validarSesion() {
         window.location.href = "/bienvenida";
         return false;
     }
-
     return true;
 }
 

@@ -111,6 +111,15 @@ app.get("/productos/detalle", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/detalle.html'));
 });
 
+/**
+ * ENDPOINT ENCUESTA: /encuesta
+ * 
+ * Muestra la pantalla de enecuesta donde el usuario podrá ingresar su opinión.
+*/
+app.get("/encuesta", (req, res) => {
+    res.sendFile(join(__dirname, 'src/public/html/encuesta.html'));
+});
+
 // ------ ADMINISTRADOR ------
 app.use("/admin", viewRoutes);
 app.use("/auth", authRoutes);

@@ -1,16 +1,24 @@
 <header>
-    <div class="logo">
-        <a href="/admin/dashboard">
-            <h1>📚 Panel de administrador</h1>
-        </a>
+    <div class="header-logo">
+        <img src="../assets/libreria.png" alt="logo" class="logo">
+        <h1>Librería</h1>
     </div>
 
-    <nav>
-        <a href="/admin/dashboard">Dashboard</a>
-        <a href="/admin/crear">Crear libro</a>
-
-        <form action="/auth/destroy" method="POST" id="formLogOut">
-            <input type="submit" value="CERRAR SESION">
-        </form>
-    </nav>
+    <% if (rutaActual !=="login" ) { %>
+        <div class="header-sesion">
+            <form action="/auth/destroy" method="POST" id="formLogOut">
+                <button type="submit" class="btn-logout">Cerrar sesión</button>
+            </form>
+        </div>
+        <% } %>
 </header>
+
+<% if (rutaActual !=="login" ) { %>
+    <div class="sidebar">
+        <nav>
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/crear">Crear libro</a>
+            <a href="/admin/registros">Registros</a>
+        </nav>
+    </div>
+    <% } %>

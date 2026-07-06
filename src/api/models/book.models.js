@@ -3,8 +3,8 @@ import { Libros } from "./general.models.js";
 // ====== MODELOS DEL CLIENTE ======
 const seleccionarLibrosActivos = async () => {
     const librosActivos = await Libros.findAll({
-        attributes: ["id", "titulo", "genero", "imagen", "precio"],
-        where: { activo: true }
+        where: { activo: true },
+        attributes: ["id", "titulo", "genero", "imagen", "precio"]
     });
     return librosActivos;
 }
@@ -25,6 +25,13 @@ const seleccionarTodosLosLibros = async () => {
     return libros;
 }
 
+const seleccionarLibroPorId = async (id) => {
+    const libro = await Libros.findByPk(id, {
+        attributes: ["id", "titulo", "genero", "imagen", "precio", "activo"]
+    });
+    return libro;
+}
+
 const insertarNuevoLibro = async (titulo, genero, imagen, precio) => {
     const libroNuevo = await Libros.create({ titulo, genero, imagen, precio });
     return libroNuevo.id;
@@ -33,18 +40,15 @@ const insertarNuevoLibro = async (titulo, genero, imagen, precio) => {
 const editarLibro = async (id, titulo, genero, imagen, precio, activo) => {
     const [libroEditado] = await Libros.update(
         { titulo, genero, imagen, precio, activo },
-        {
-            where: { id }
-        });
+        { where: { id } }
+    );
     return libroEditado;
 }
 
 const alternarEstadoLibro = async (id, activo) => {
     const [libroAlternado] = await Libros.update(
         { activo },
-        {
-            where: { id }
-        }
+        { where: { id } },
     );
     return libroAlternado;
 }
@@ -55,6 +59,7 @@ export default {
     seleccionarLibroActivoPorId,
     // ADMIN:
     seleccionarTodosLosLibros,
+    seleccionarLibroPorId,
     insertarNuevoLibro,
     editarLibro,
     alternarEstadoLibro

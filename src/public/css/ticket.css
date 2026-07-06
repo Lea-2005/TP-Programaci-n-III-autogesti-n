@@ -8,32 +8,39 @@
     box-shadow: var(--color-sombra);
     background: var(--color-tarjeta);
 }
+
 .ticket-header {
     text-align: center;
     border-bottom: 2px dashed #ccc;
     padding-bottom: 1rem;
 }
+
 .ticket-header h2 {
     margin: 0;
     font-size: 1.8rem;
 }
+
 .ticket-header p {
     margin: 0.2rem 0;
     color: var(--color-texto-principal);
 }
+
 .tabla-ticket {
     width: 100%;
     border-collapse: collapse;
     margin: 1rem 0;
 }
+
 .tabla-ticket th {
     text-align: left;
     padding: 0.5rem;
 }
+
 .tabla-ticket td {
     padding: 0.4rem 0.5rem;
     border-bottom: var(--radio);
 }
+
 .ticket-footer {
     text-align: right;
     font-size: 1.2rem;
@@ -41,18 +48,21 @@
     padding-top: 1rem;
     margin-top: 1rem;
 }
+
 .ticket-acciones {
     display: flex;
     gap: 1rem;
     justify-content: center;
     margin-top: 1.5rem;
 }
+
 .ticket-acciones button {
     padding: 0.6rem 1.5rem;
     border: none;
     border-radius: var(--radio);
     cursor: pointer;
 }
+
 #btn-descargar-pdf {
     background: var(--color-acento);
     color: #fff;

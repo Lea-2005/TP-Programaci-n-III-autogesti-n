@@ -1,0 +1,48 @@
+<%- include("../partials/head.ejs", { titulo }) %>
+<%- include("../partials/header.ejs", { rutaActual }) %>
+
+<main>
+    <h1><%= detalle %></h1>
+
+    <form action="/admin/editar/<%= libro.id %>" method="POST" enctype="multipart/form-data" class="form-libro">
+        <input type="hidden" name="id" value="<%= libro.id %>">
+        <input type="hidden" name="imagen_actual" value="<%= libro.imagen %>">
+
+        <div class="campo">
+            <label for="titulo">* Título - </label>
+            <input type="text" name="titulo" id="titulo" value="<%= libro.titulo %>" required>
+        </div>
+
+        <div class="campo">
+            <label for="genero">* Género - </label>
+            <select name="genero" id="genero" required>
+                <option value="Ciencia Ficcion" <%= libro.genero === 'Ciencia Ficcion' ? 'selected' : '' %>>Ciencia ficción</option>
+                <option value="Fantasia" <%= libro.genero === 'Fantasia' ? 'selected' : '' %>>Fantasía</option>
+                <option value="Terror" <%= libro.genero === 'Terror' ? 'selected' : '' %>>Terror</option>
+                <option value="Misterio" <%= libro.genero === 'Misterio' ? 'selected' : '' %>>Misterio</option>
+                <option value="Drama" <%= libro.genero === 'Drama' ? 'selected' : '' %>>Drama</option>
+                <option value="Romance" <%= libro.genero === 'Romance' ? 'selected' : '' %>>Romance</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="precio">* Precio -</label>
+            <input type="number" name="precio" id="precio" step="0.01" min="0" value="<%= libro.precio %>" required>
+        </div>
+
+        <div class="campo">
+            <label for="imagen">* URL de la imagen -</label>
+            <input type="text" name="imagen" id="imagen" placeholder="https://ejemplo.com/libro.jpg" value="<%= libro.imagen %>">
+        </div>
+
+        <div class="campo">
+            <label for="activo">* Activo -</label>
+            <input type="checkbox" name="activo" id="activo" value="1" <%= libro.activo ? 'checked' : '' %>>
+        </div>
+
+        <button type="submit" class="btn-guardar">Actualizar libro</button>
+        <a href="/admin/dashboard" class="btn-cancelar">Cancelar</a>
+    </form>
+</main>
+
+<%- include("../partials/footer.ejs") %>

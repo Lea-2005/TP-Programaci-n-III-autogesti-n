@@ -7,9 +7,10 @@ export const dashboardView = async (req, res) => {
 
         res.render("admin/dashboard", {
             titulo: "Dashboard",
-            detalle: "Lista de libros",
+            detalle: "Dashboard de libros",
             librosArray: libros,
-            error: null
+            error: null,
+            rutaActual: "dashboard"
         });
     } catch (error) {
         console.log("Error obteniendo informacion", error.mensaje);
@@ -23,13 +24,29 @@ export const dashboardView = async (req, res) => {
 export const crearLibroView = (req, res) => {
     res.render("admin/crear", {
         titulo: "Crear libro",
+        detalle: "Crea un nuevo libro a tu gusto.",
+        rutaActual: "crear"
     });
 }
 
-export const editarLibroView = (req, res) => {
-    res.render("admin/editar", {
-        titulo: "Editar libro",
-    });
+export const editarLibroView = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const libro = await BookModels.seleccionarLibroPorId(id);
+
+        res.render("admin/editar", {
+            titulo: "Editar libro",
+            detalle: "Editá los parámetros del libro.",
+            rutaActual: "editar",
+            libro: libro
+        });
+    } catch (error) {
+        console.error("Error al cargar editar:", error);
+
+        res.status(500).json({
+            mensaje: "Error interno al cargar el libro."
+        });
+    }
 }
 
 export default {

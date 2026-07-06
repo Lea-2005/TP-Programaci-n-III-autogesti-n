@@ -1,26 +1,27 @@
 /* ----- COLORES PRINCIPALES ----- */
 :root {
-    /* Colores de fondo */
+    /* Colores de los fondos */
     --color-fondo-primario: #ffffff;
     --color-fondo-secundario: #f8f9fa;
     --color-tarjeta: #eee8e8;
 
-    /* Colores de texto */
+    /* Colores de los textos */
     --color-texto-primario: #212529;
     --color-texto-secundario: #495057;
     --color-precio: #ac7a10;
-    
-    /* Color de bordes, sombra y acentos */
+
+    /* Colores de los bordes, sombra y acentos */
     --color-borde: #c9d2db;
     --color-sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
     --color-acento: #0d6efd;
     --color-acento-hover: #0b5ed7;
 
-    --color-btn-suma: rgb(22, 204, 52);
-    --color-btn-suma-borde: rgb(3, 92, 18);
-    
-    --color-btn-resta: rgb(233, 28, 28);
-    --color-btn-resta-borde: rgb(165, 17, 17);
+    /* Colores de los botones de suma y resta */
+    --color-btn-suma: #20d83f;
+    --color-btn-suma-borde: #076617;
+
+    --color-btn-resta: #e01616;
+    --color-btn-resta-borde: #a71515;
 
     /*----*/
     --radio: 8px;
@@ -37,7 +38,7 @@ body.dark-mode {
     --color-texto-primario: #e9ecef;
     --color-texto-secundario: #ced4da;
     --color-precio: #f5b323;
-    
+
     /* Color de bordes, sombra y acentos */
     --color-borde: #2d3748;
     --color-sombra: 0 2px 8px rgba(0, 0, 0, 0.4);

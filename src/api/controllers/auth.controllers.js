@@ -5,7 +5,7 @@ export const loginView = (req, res) => {
     res.render("admin/login", {
         titulo: "Login admin",
         detalle: "Iniciar sesión",
-        error: null
+        rutaActual: "login"
     });
 };
 
@@ -23,7 +23,8 @@ export const processLoginInfo = async (req, res) => {
             return res.render("admin/login", {
                 titulo: "Login admin",
                 detalle: "Iniciar sesión",
-                error: "Email inválido."
+                error: "Email inválido.",
+                rutaActual: "login"
             });
         }
 
@@ -31,7 +32,8 @@ export const processLoginInfo = async (req, res) => {
             return res.render("admin/login", {
                 titulo: "Login admin",
                 detalle: "Iniciar sesión",
-                error: "Error interno del servidor: usuario sin contraseña."
+                error: "Error interno del servidor: usuario sin contraseña.",
+                rutaActual: "login"
             });
         }
 
@@ -43,7 +45,8 @@ export const processLoginInfo = async (req, res) => {
             return res.render("admin/login", {
                 titulo: "Login admin",
                 detalle: "Iniciar sesión",
-                error: " Email o contraseña inválidos."
+                error: " Email o contraseña inválidos.",
+                rutaActual: "login"
             });
         }
 
@@ -55,7 +58,8 @@ export const processLoginInfo = async (req, res) => {
         res.render("admin/login", {
             titulo: "Login admin",
             detalle: "Intenta de nuevo",
-            error: "Error interno del servidor."
+            error: "Error interno del servidor.",
+            rutaActual: "login"
         });
     }
 }

@@ -1,0 +1,39 @@
+<%- include("../partials/head.ejs", { titulo }) %>
+<%- include("../partials/header.ejs", { rutaActual }) %>
+
+<main>
+    <h1><%= detalle %></h1>
+
+    <form action="/admin/crear" method="POST" enctype="multipart/form-data" class="form-libro">
+        <div class="campo">
+            <label for="titulo">Título *</label>
+            <input type="text" name="titulo" id="titulo" required>
+        </div>
+        <div class="campo">
+            <label for="genero">Género *</label>
+            <select name="genero" id="genero" required>
+                <option value="Ciencia Ficcion">Ciencia Ficción</option>
+                <option value="Fantasia">Fantasía</option>
+                <option value="Terror">Terror</option>
+                <option value="Misterio">Misterio</option>
+                <option value="Drama">Drama</option>
+                <option value="Romance">Romance</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label for="precio">Precio *</label>
+            <input type="number" name="precio" id="precio" step="0.01" min="0" required>
+        </div>
+        <div class="campo">
+            <label for="imagen">URL de la imagen *</label>
+            <input type="text" name="imagen" id="imagen" placeholder="https://ejemplo.com/libro.jpg" required>
+            <small>Ingresa la URL de la imagen del libro.</small>
+        </div>
+        <div class="btn-acciones-form">
+            <button type="submit" class="btn-guardar">💾 Guardar libro</button>
+            <a href="/admin/dashboard" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<%- include("../partials/footer.ejs") %>
