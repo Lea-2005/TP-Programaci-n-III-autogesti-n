@@ -1,0 +1,91 @@
+#contenedor-detalle {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.detalle-libro {
+    display: flex;
+    gap: 2rem;
+    background: var(--color-tarjeta);
+    padding: 2rem;
+    border-radius: var(--radio);
+    box-shadow: var(--color-sombra);
+    align-items: flex-start;
+}
+
+.detalle-libro img {
+    max-width: 250px;
+    width: 100%;   
+    object-fit: cover;  
+    border-radius: var(--radio);
+    box-shadow: var(--color-sombra);
+}
+
+.detalle-info {
+    flex: 1;
+}
+
+.detalle-info h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-texto-primario);
+}
+
+.detalle-info p {
+    margin: 0.5rem 0;
+    color: var(--color-texto-secundario);
+    font-size: 1.1rem;
+}
+
+.detalle-info .precio {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-acento);
+    margin: 1rem 0;
+}
+
+.btn-agregar-detalle {
+    background: var(--color-acento);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: var(--radio);
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 1rem;
+}
+
+.btn-agregar-detalle:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.btn-volver {
+    background: var(--color-fondo-primario);
+    color: var(--color-texto-primario);
+    border: 1px solid var(--color-borde);
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--radio);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-volver:hover {
+    background: var(--color-borde);
+}
+
+@media (max-width: 600px) {
+    .detalle-libro {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+    }
+    .detalle-libro img {
+        max-width: 200px;
+    }
+    .detalle-info {
+        text-align: center;
+    }
+}

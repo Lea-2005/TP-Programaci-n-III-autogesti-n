@@ -1,16 +1,3 @@
-// ===== FUNCIONALIDAD BÁSICA DEL CARRITO =====
-function obtenerCarrito() {
-    const carritoJSON = localStorage.getItem("carrito");
-    if (carritoJSON) {
-        return JSON.parse(carritoJSON);
-    }
-    return [];
-}
-
-function guardarCarrito(carrito) {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-
 // ===== LÓGICA DE RENDERIZADO =====
 function generarHTMLProductos(carrito) {
     let plantillaHTML = "";
@@ -106,7 +93,7 @@ function cargarProductosCarrito() {
     configurarEventosCarrito();
 }
 
-// ===== FUNCIONALIDAD DE LA LÓGICA DEL CARRITO =====
+// ===== FUNCIONALIDAD DE LOS EVENTOS DEL CARRITO =====
 function configurarEventosCarrito() {
     document.querySelectorAll(".select-cantidad").forEach(select => {
         select.addEventListener("change", (e) => {
@@ -129,53 +116,7 @@ function configurarEventosCarrito() {
     }
 }
 
-function actualizarCantidad(id, nuevaCantidad) {
-    let carrito = obtenerCarrito();
-    const producto = carrito.find(item => item.id === id);
-    if (producto) {
-        if (nuevaCantidad <= 0) {
-            carrito = carrito.filter(item => item.id !== id);
-        } else {
-            producto.cantidad = nuevaCantidad;
-        }
-        guardarCarrito(carrito);
-        cargarProductosCarrito();
-    }
-}
-
-function eliminarProducto(id) {
-    let carrito = obtenerCarrito();
-    const producto = carrito.find(item => item.id === id);
-    if (!producto) return;
-
-    carrito = carrito.filter(item => item.id !== id);
-    guardarCarrito(carrito);
-    cargarProductosCarrito();
-}
-
-function limpiarCarrito() {
-    const carrito = obtenerCarrito();
-    if (carrito.length === 0) return;
-    
-    localStorage.removeItem("carrito");
-    cargarProductosCarrito();
-}
-
-// ===== VALIDACIÓN DEL NOMBRE =====
-function validarSesion() {
-    const nombre = localStorage.getItem("nombre_usuario");
-
-    if (!nombre) {
-        window.location.href = "/bienvenida";
-        return false;
-    }
-
-    return true;
-}
-
 // ===== INICIALIZACIÓN =====
 document.addEventListener("DOMContentLoaded", () => {
-    if (!validarSesion()) return;
-
     cargarProductosCarrito();
 });

@@ -26,13 +26,23 @@ CREATE TABLE ventas (
 );
 
 CREATE TABLE ventas_libros (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     id_venta INT NOT NULL,
     id_libro INT NOT NULL,
     cantidad INT NOT NULL DEFAULT 1,
     precio_unitario DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (id_venta) REFERENCES ventas(id),
     FOREIGN KEY (id_libro) REFERENCES libros(id)
+);
+
+CREATE TABLE encuestas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    comentario TEXT,
+    puntuacion INT NOT NULL CHECK (puntuacion BETWEEN 1 AND 5),
+    suscripcion BOOLEAN DEFAULT FALSE,
+    imagen VARCHAR(255),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- INSERCIÓN DE LIBROS (DIVIDIDO POR LOS GÉNEROS)

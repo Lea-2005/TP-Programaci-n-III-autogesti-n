@@ -19,6 +19,8 @@ export const processLoginInfo = async (req, res) => {
         const { email, contrasenia } = req.body;
         const usuario = await UsuarioModels.seleccionarUsuarioPorEmail(email);
 
+        console.log(`🔐 - Intento de login: ${email}.`);
+
         if (!usuario) {
             return res.render("admin/login", {
                 titulo: "Login admin",
@@ -38,8 +40,8 @@ export const processLoginInfo = async (req, res) => {
         }
 
         const match = await bcrypt.compare(contrasenia, usuario.contrasenia);
-        console.log("Contrseña hasheada:", usuario.contrasenia);
-        console.log(match);
+        //console.log("Contrseña hasheada:", usuario.contrasenia);
+        //console.log(match);
 
         if (!match) {
             return res.render("admin/login", {
@@ -50,11 +52,12 @@ export const processLoginInfo = async (req, res) => {
             });
         }
 
+        console.log(`✅ - Login exitoso: ${email}`)
         req.session.usuario = { id: usuario.id, email: usuario.email }
     
         res.redirect("/admin/dashboard");
     } catch (error) {
-        console.error("Error en el login:", error);
+        console.error("❌ - Error en el login:", error.message);
         res.render("admin/login", {
             titulo: "Login admin",
             detalle: "Intenta de nuevo",

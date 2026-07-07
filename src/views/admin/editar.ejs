@@ -4,7 +4,7 @@
 <main>
     <h1><%= detalle %></h1>
 
-    <form action="/admin/editar/<%= libro.id %>" method="POST" enctype="multipart/form-data" class="form-libro">
+    <form action="/admin/editar/<%= libro.id %>" method="POST" class="form-libro">
         <input type="hidden" name="id" value="<%= libro.id %>">
         <input type="hidden" name="imagen_actual" value="<%= libro.imagen %>">
 
@@ -16,12 +16,12 @@
         <div class="campo">
             <label for="genero">* Género - </label>
             <select name="genero" id="genero" required>
-                <option value="Ciencia Ficcion" <%= libro.genero === 'Ciencia Ficcion' ? 'selected' : '' %>>Ciencia ficción</option>
-                <option value="Fantasia" <%= libro.genero === 'Fantasia' ? 'selected' : '' %>>Fantasía</option>
-                <option value="Terror" <%= libro.genero === 'Terror' ? 'selected' : '' %>>Terror</option>
-                <option value="Misterio" <%= libro.genero === 'Misterio' ? 'selected' : '' %>>Misterio</option>
-                <option value="Drama" <%= libro.genero === 'Drama' ? 'selected' : '' %>>Drama</option>
-                <option value="Romance" <%= libro.genero === 'Romance' ? 'selected' : '' %>>Romance</option>
+                <option value="Ciencia Ficcion" <%= libro.genero === "Ciencia Ficcion" ? "selected" : "" %>>Ciencia ficción</option>
+                <option value="Fantasia" <%= libro.genero === "Fantasia" ? "selected" : "" %>>Fantasía</option>
+                <option value="Terror" <%= libro.genero === "Terror" ? "selected" : "" %>>Terror</option>
+                <option value="Misterio" <%= libro.genero === "Misterio" ? "selected" : "" %>>Misterio</option>
+                <option value="Drama" <%= libro.genero === "Drama" ? "selected" : "" %>>Drama</option>
+                <option value="Romance" <%= libro.genero === "Romance" ? "selected" : "" %>>Romance</option>
             </select>
         </div>
 
@@ -37,7 +37,7 @@
 
         <div class="campo">
             <label for="activo">* Activo -</label>
-            <input type="checkbox" name="activo" id="activo" value="1" <%= libro.activo ? 'checked' : '' %>>
+            <input type="checkbox" name="activo" id="activo" value="1" <%= libro.activo ? "checked" : "" %>>
         </div>
 
         <button type="submit" class="btn-guardar">Actualizar libro</button>

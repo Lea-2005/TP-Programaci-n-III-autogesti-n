@@ -2,9 +2,10 @@ import BookModels from "../models/book.models.js";
 
 export const dashboardView = async (req, res) => {
     try {
+        console.log(`📊 - Cargando dashboard...`);
         const libros = await BookModels.seleccionarTodosLosLibros();
-        console.log("Libros enviados a la vista:", libros.length);
 
+        console.log(`📚 - ${libros.length} libros cargados.`);
         res.render("admin/dashboard", {
             titulo: "Dashboard",
             detalle: "Dashboard de libros",

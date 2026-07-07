@@ -1,16 +1,4 @@
 // ===== FUNCIONALIDAD BÁSICA PARA EL TICKET =====
-function obtenerCarrito() {
-    const carritoJSON = localStorage.getItem("carrito");
-    if (carritoJSON) {
-        return JSON.parse(carritoJSON);
-    }
-    return [];
-}
-
-function obtenerNombreUsuario() {
-    return localStorage.getItem("nombre_usuario");
-}
-
 function cargarTicket() {
     const carrito = obtenerCarrito();
     const nombreUsuario = obtenerNombreUsuario();
@@ -71,19 +59,13 @@ async function registrarVentas () {
     }   
 }
 
-function limpiarLocal() {
-    // Limpia el localStorage (carrito y nombre de usuario)
-    localStorage.removeItem("carrito");
-    localStorage.removeItem("nombre_usuario");
-}
-
 async function salir() {
     try {
         await registrarVentas();
     } catch (error) {
         console.error("Error al estar saliendo de la pantalla de ticket", error);
     }
-    limpiarLocal();
+   limpiarLocal();
     window.location.href = "/encuesta";
 }
 
@@ -101,7 +83,6 @@ function descargarPDF() {
 
     const margin = 10;
     let y = margin;
-
     // ----- ENCABEZADO DEL TICKET -----
     doc.setFontSize(20);
     doc.text("Librería", margin + 50, y); // Siendo: `doc.text(texto, posicion x, posicion y);`
@@ -171,25 +152,11 @@ function descargarPDF() {
     y += 8;
 
     doc.save(`ticket-${Date.now()}.pdf`);
-    limpiarLocal();
     window.location.href = "/encuesta";
-}
-
-// ===== VALIDACIÓN DEL NOMBRE =====
-function validarSesion() {
-    const nombre = localStorage.getItem("nombre_usuario");
-
-    if (!nombre) {
-        window.location.href = "/bienvenida";
-        return false;
-    }
-    return true;
 }
 
 // ===== EVENTOS =====
 document.addEventListener("DOMContentLoaded", () => {
-    if (!validarSesion()) return;
-
     cargarTicket();
     
     document.getElementById("btn-salir").addEventListener("click", salir);

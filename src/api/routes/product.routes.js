@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { obtenerLibrosActivos, obtenerLibroActivoPorId, cambiarEstadoLibro } from "../controllers/book.controllers.js";
+import { obtenerLibrosActivos, obtenerLibroActivoPorId, cambiarEstadoLibro, crearLibro, editarLibro } from "../controllers/book.controllers.js";
 
 const router = Router();
 

@@ -56,3 +56,22 @@
     background: var(--color-acento-hover);
     transform: scale(1.02);
 }
+
+@media (max-width: 600px) {
+    .bienvenida-container {
+        min-height: 50vh;
+        padding: 1rem;
+    }
+    .bienvenida-card {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    .bienvenida-card h2 {
+        font-size: 1.6rem;
+    }
+    #form-bienvenida input,
+    #form-bienvenida button {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+}

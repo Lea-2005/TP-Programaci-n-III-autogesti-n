@@ -117,6 +117,46 @@ const VentasLibros = sequelize.define("VentasLibros", {
     }
 );
 
+const Encuestas = sequelize.define("Encuestas", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    email: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    comentario: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    puntuacion: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            min: 1,
+            max: 5
+        }
+    },
+    suscripcion: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    imagen: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    fecha: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    }
+},
+    {
+        tableName: "encuestas"
+    }
+);
+
 // ====== RELACIONES ======
 Ventas.belongsToMany(Libros, {
     through: VentasLibros,
@@ -133,5 +173,6 @@ export {
     Libros,
     Usuarios,
     Ventas,
-    VentasLibros
+    VentasLibros,
+    Encuestas
 }

@@ -1,4 +1,3 @@
-/* ticket.css o dentro de global.css */
 .contenedor-ticket {
     max-width: 600px;
     margin: 2rem auto;
@@ -87,4 +86,29 @@
     background: var(--color-btn-resta);
     border-color: var(--color-btn-resta);
     color: #fff;
+}
+
+@media (max-width: 600px) {
+    .contenedor-ticket {
+        margin: 1rem;
+        padding: 1rem;
+    }
+    .ticket-header h2 {
+        font-size: 1.4rem;
+    }
+    .tabla-ticket th, 
+    .tabla-ticket td {
+        padding: 0.3rem;
+        font-size: 0.8rem;
+    }
+    .ticket-footer {
+        font-size: 1rem;
+    }
+    .ticket-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ticket-acciones button {
+        width: 100%;
+    }
 }

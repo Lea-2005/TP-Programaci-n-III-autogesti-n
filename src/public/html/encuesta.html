@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Librería | Encuesta</title>
-    <link rel="icon" href="../assets/libreria.png">
+    <link rel="icon" href="/assets/libreria.png">
 
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/encuesta.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/encuesta.css">
 
-    <script src="../js/tema.js"></script>
-    <script src="../js/encuesta.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/encuesta.js"></script>
 </head>
 
 <body>
     <header>
         <div class="header-left">
-            <img src="../assets/libreria.png" alt="logo" class="logo">
+            <img src="/assets/libreria.png" alt="logo" class="logo">
             <h1>Librería</h1>
         </div>
         <div class="header-right">
@@ -27,32 +27,41 @@
 
     <main>
         <h2 class="pg-titulo">Encuesta de satisfacción</h2>
-        <form action="" method="POST">
+        
+        <form id="form-encuesta" method="POST">
 
             <div class="campo">
-                <label for="texto-opinion">Deja una opinión:</label>
-                <input type="text" placeholder="📋 Escribí tu opinión...">
+                <label for="comentario">💬 - Comentario sobre tu experiencia:</label>
+                <textarea id="comentario" name="comentario" rows="4"
+                    placeholder="Cuenta cómo fue tu experiencia..."></textarea>
             </div>
 
             <div class="campo">
-                <label for="correo-cliente">Correo electrónico:</label>
-                <input type="email" placeholder="📝 Escribí tu correo..." required>
+                <label for="email">📂 - Correo electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+                <div class="error-msg" id="email-error" style="display:none;">Email inválido</div>
+            </div>
+
+            <div class="campo checkbox">
+                <input type="checkbox" id="suscripcion" name="suscripcion">
+                <label for="suscripcion">📬 - ¿Deseas recibir novedades por correo?</label>
             </div>
 
             <div class="campo">
-                <label for="caja-verificacion">Caja de verificación...</label>
-                <input type="checkbox" required>
+                <label for="puntuacion">⭐ - Puntuación del servicio (1-5): <span id="valor-puntuacion">3</span></label>
+                <input type="range" id="puntuacion" name="puntuacion" min="1" max="5" value="3" step="1">
             </div>
 
             <div class="campo">
-                <label for="correo">Estado:</label>
-                <input type="range" id="opinion" name="opinion" min="1" max="5" step="1" value="3">
+                <label for="imagen_url">🖼️ - URL de tu libro favorito:</label>
+                <input type="text" id="imagen_url" name="imagen_url" placeholder="https://ejemplo.com/libro.jpg">
             </div>
 
-            <div class="campo">
-                <label for="correo">Imagen:</label>
-                <input type="file" required>
+            <div class="encuesta-acciones">
+                <button type="submit" class="btn-enviar">Enviar encuesta</button>
+                <button type="button" class="btn-omitir" onclick="omitirEncuesta()">Omitir</button>
             </div>
+
         </form>
     </main>
 

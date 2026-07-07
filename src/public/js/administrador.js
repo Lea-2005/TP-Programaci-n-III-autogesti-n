@@ -18,8 +18,6 @@ function cambiarEstado() {
             const nuevoEstado = !activoActual;
             const accion = activoActual ? "desactivar" : "activar";
 
-            //if (!confirm(`¿Estás seguro de ${accion} este libro?`)) return;
-
             try {
                 const respuesta = await fetch(`/api/productos/admin/${id}`, {
                     method: "PATCH", // 

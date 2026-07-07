@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     {
         host: database.host,
         dialect: "mysql",
-        loggin: false,
+        logging: false,
         define: {
             timestamps: false,
             underscored: false
@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
 export const connectDatabase = async () => {
     try {
         await sequelize.authenticate();
-        console.log(`✅ Conectado a la base de datos: ${database.name}`);
+        console.log(`✅ - Conectado a la base de datos: '${database.name}'.`);
 
         await sequelize.sync({ alter: false });
     } catch (error) {

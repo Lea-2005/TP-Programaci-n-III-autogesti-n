@@ -3,9 +3,9 @@ import dotenv from "dotenv"; // Importamos dotenv para cargar variables de entor
 import enviroments from "./src/api/config/environments.js"; // Importamos la configuración (puerto, clave de sesión, etc).
 import session from "express-session";
 import { join, __dirname } from "./src/api/utils/utilidades.js"; // Importamos utilidades: join (para rutas) y __dirname (directorio actual).
-import { viewRoutes, productRoutes, authRoutes, saleRoutes } from "./src/api/routes/index.js";
+import { viewRoutes, productRoutes, authRoutes, saleRoutes, surveyRoutes } from "./src/api/routes/index.js";
 import { loginView, processLoginInfo, destroyLogin } from "./src/api/controllers/auth.controllers.js";
-import { requireLogin } from "./src/api/middlewares/middlewaes.js";
+import { requireLogin } from "./src/api/middlewares/middlewares.js";
 import { connectDatabase } from "./src/api/database/sequelize.js";
 import { crearLibroView, dashboardView, editarLibroView } from "./src/api/controllers/view.controllers.js";
 
@@ -107,7 +107,7 @@ app.get("/ticket", (req, res) => {
  * 
  * Muestra los detalles de un producto mediante su ID.
 */
-app.get("/productos/detalle", (req, res) => {
+app.get("/producto/detalle/:id", (req, res) => {
     res.sendFile(join(__dirname, 'src/public/html/detalle.html'));
 });
 
@@ -127,6 +127,7 @@ app.use("/auth", authRoutes);
 // Montar routers
 app.use("/api/productos", productRoutes);    // API: /api/productos.
 app.use("/api/ventas", saleRoutes);    // API: /api/ventas.
+app.use("/api/encuestas", surveyRoutes);    // API: /api/encuestas.
 
 // ===== INICIALIZAR SERVIDOR =====
 await connectDatabase();

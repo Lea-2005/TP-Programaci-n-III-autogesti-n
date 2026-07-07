@@ -3,16 +3,16 @@ import { Libros } from "./general.models.js";
 // ====== MODELOS DEL CLIENTE ======
 const seleccionarLibrosActivos = async () => {
     const librosActivos = await Libros.findAll({
-        where: { activo: true },
-        attributes: ["id", "titulo", "genero", "imagen", "precio"]
+        attributes: ["id", "titulo", "genero", "imagen", "precio"],
+        where: { activo: true }
     });
     return librosActivos;
 }
 
 const seleccionarLibroActivoPorId = async (id) => {
     const libro = await Libros.findByPk(id, {
-        where: { activo: true },
-        attributes: ["id", "titulo", "genero", "imagen", "precio"]
+        attributes: ["id", "titulo", "genero", "imagen", "precio"],
+        where: { activo: true }
     });
     return libro;
 }
