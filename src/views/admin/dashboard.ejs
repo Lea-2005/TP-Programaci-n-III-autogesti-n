@@ -2,216 +2,55 @@
     <%- include("../partials/header.ejs", { rutaActual }) %>
 
         <main>
-            <h1>
-                <%= detalle %>
-            </h1>
+            <h2 class="pg-titulo"><%= detalle %></h2>
 
             <div class="listado-opciones">
-                <a href="#ciencia-ficcion" class="categoria-link">Ciencia ficción</a>
-                <a href="#fantasia" class="categoria-link">Fantasía</a>
-                <a href="#terror" class="categoria-link">Terror</a>
-                <a href="#misterio" class="categoria-link">Misterio</a>
-                <a href="#drama" class="categoria-link">Drama</a>
-                <a href="#romance" class="categoria-link">Romance</a>
+                <% generos.forEach(genero=> { %>
+                    <a href="#<%= genero.toLowerCase().replace(' ', '-') %>" class="categoria-link">
+                        <%= genero %>
+                    </a>
+                    <% }); %>
             </div>
 
             <div class="informacion-general">
                 <div class="estadistica">
                     <h3>Total libros</h3>
                     <p>
-                        <%= librosArray.length %>
+                        <%= estadisticas.totalLibros %>
                     </p>
                 </div>
                 <div class="estadistica">
                     <h3>Activos</h3>
                     <p>
-                        <%= librosArray.filter(libro=> libro.activo).length %>
+                        <%= estadisticas.activos %>
                     </p>
                 </div>
                 <div class="estadistica">
                     <h3>Inactivos</h3>
                     <p>
-                        <%= librosArray.filter(libro=> !libro.activo).length %>
+                        <%= estadisticas.inactivos %>
                     </p>
                 </div>
             </div>
 
             <!-- Contenedor de libros -->
-            <section id="ciencia-ficcion">
-                <h2 class="h2-separador">Ciencia ficción</h2>
-                <div class="contenedor-libros">
-                    <% librosArray.forEach( libro=> { %>
-                        <% if (libro.genero==="Ciencia Ficcion" ) { %>
-                            <div class="tarjeta-libro <%= libro.activo ? "" : " inactivo"%>">
-                                <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
-                                <div class="informacion-libro">
-                                    <h2>
-                                        <%= libro.titulo %>
-                                    </h2>
-                                    <p>Id: <%= libro.id %>
-                                    </p>
-                                    <p>Precio: <%= libro.precio %>
-                                    </p>
-                                    <p>Estado: <%= libro.activo ? "✅ Activo" : "❌ Inactivo" %>
-                                    </p>
-                                </div>
-                                <div class="btn-acciones">
-                                    <% if (libro.activo) { %>
-                                        <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar libro</a>
-                                        <% } %>
-                                            <a href="#" class="btn-estado" data-id="<%= libro.id %>">
-                                                <%= libro.activo ? "Desactivar" : "Activar" %>
-                                            </a>
-                                </div>
-                            </div>
-                            <% }}); %>
-            </section>
-            <section id="fantasia">
-                <h2 class="h2-separador">Fantasía</h2>
-                <div class="contenedor-libros">
-                    <% librosArray.forEach( libro=> { %>
-                        <% if (libro.genero==="Fantasia" ) { %>
-                            <div class="tarjeta-libro <%= libro.activo ? "" : " inactivo"%>">
-                                <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
-                                <div class="informacion-libro">
-                                    <h2>
-                                        <%= libro.titulo %>
-                                    </h2>
-                                    <p>Id: <%= libro.id %>
-                                    </p>
-                                    <p>Precio: <%= libro.precio %>
-                                    </p>
-                                    <p>Estado: <%= libro.activo ? "✅ Activo" : "❌ Inactivo" %>
-                                    </p>
-                                </div>
-                                <div class="btn-acciones">
-                                    <% if (libro.activo) { %>
-                                        <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar libro</a>
-                                        <% } %>
-                                            <a href="#" class="btn-estado" data-id="<%= libro.id %>">
-                                                <%= libro.activo ? "Desactivar" : "Activar" %>
-                                            </a>
-                                </div>
-                            </div>
-                            <% }}); %>
-            </section>
-            <section id="terror">
-                <h2 class="h2-separador">Terror</h2>
-                <div class="contenedor-libros">
-                    <% librosArray.forEach( libro=> { %>
-                        <% if (libro.genero==="Terror" ) { %>
-                            <div class="tarjeta-libro <%= libro.activo ? "" : " inactivo"%>">
-                                <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
-                                <div class="informacion-libro">
-                                    <h2>
-                                        <%= libro.titulo %>
-                                    </h2>
-                                    <p>Id: <%= libro.id %>
-                                    </p>
-                                    <p>Precio: <%= libro.precio %>
-                                    </p>
-                                    <p>Estado: <%= libro.activo ? "✅ Activo" : "❌ Inactivo" %>
-                                    </p>
-                                </div>
-                                <div class="btn-acciones">
-                                    <% if (libro.activo) { %>
-                                        <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar libro</a>
-                                        <% } %>
-                                            <a href="#" class="btn-estado" data-id="<%= libro.id %>">
-                                                <%= libro.activo ? "Desactivar" : "Activar" %>
-                                            </a>
-                                </div>
-                            </div>
-                            <% }}); %>
-            </section>
-            <section id="misterio">
-                <h2 class="h2-separador">Misterio</h2>
-                <div class="contenedor-libros">
-                    <% librosArray.forEach( libro=> { %>
-                        <% if (libro.genero==="Misterio" ) { %>
-                            <div class="tarjeta-libro <%= libro.activo ? "" : " inactivo"%>">
-                                <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
-                                <div class="informacion-libro">
-                                    <h2>
-                                        <%= libro.titulo %>
-                                    </h2>
-                                    <p>Id: <%= libro.id %>
-                                    </p>
-                                    <p>Precio: <%= libro.precio %>
-                                    </p>
-                                    <p>Estado: <%= libro.activo ? "✅ Activo" : "❌ Inactivo" %>
-                                    </p>
-                                </div>
-                                <div class="btn-acciones">
-                                    <% if (libro.activo) { %>
-                                        <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar libro</a>
-                                        <% } %>
-                                            <a href="#" class="btn-estado" data-id="<%= libro.id %>">
-                                                <%= libro.activo ? "Desactivar" : "Activar" %>
-                                            </a>
-                                </div>
-                            </div>
-                            <% }}); %>
-            </section>
-            <section id="drama">
-                <h2 class="h2-separador">Drama</h2>
-                <div class="contenedor-libros">
-                    <% librosArray.forEach( libro=> { %>
-                        <% if (libro.genero==="Drama" ) { %>
-                            <div class="tarjeta-libro <%= libro.activo ? "" : " inactivo"%>">
-                                <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
-                                <div class="informacion-libro">
-                                    <h2>
-                                        <%= libro.titulo %>
-                                    </h2>
-                                    <p>Id: <%= libro.id %>
-                                    </p>
-                                    <p>Precio: <%= libro.precio %>
-                                    </p>
-                                    <p>Estado: <%= libro.activo ? "✅ Activo" : "❌ Inactivo" %>
-                                    </p>
-                                </div>
-                                <div class="btn-acciones">
-                                    <% if (libro.activo) { %>
-                                        <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar libro</a>
-                                        <% } %>
-                                            <a href="#" class="btn-estado" data-id="<%= libro.id %>">
-                                                <%= libro.activo ? "Desactivar" : "Activar" %>
-                                            </a>
-                                </div>
-                            </div>
-                            <% }}); %>
-            </section>
-            <section id="romance">
-                <h2 class="h2-separador">Romance</h2>
-                <div class="contenedor-libros">
-                    <% librosArray.forEach( libro=> { %>
-                        <% if (libro.genero==="Romance" ) { %>
-                            <div class="tarjeta-libro <%= libro.activo ? "" : " inactivo"%>">
-                                <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
-                                <div class="informacion-libro">
-                                    <h2>
-                                        <%= libro.titulo %>
-                                    </h2>
-                                    <p>Id: <%= libro.id %>
-                                    </p>
-                                    <p>Precio: <%= libro.precio %>
-                                    </p>
-                                    <p>Estado: <%= libro.activo ? "✅ Activo" : "❌ Inactivo" %>
-                                    </p>
-                                </div>
-                                <div class="btn-acciones">
-                                    <% if (libro.activo) { %>
-                                        <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar libro</a>
-                                        <% } %>
-                                            <a href="#" class="btn-estado" data-id="<%= libro.id %>">
-                                                <%= libro.activo ? "Desactivar" : "Activar" %>
-                                            </a>
-                                </div>
-                            </div>
-                            <% }}); %>
-            </section>
-            </div>
+            <% generos.forEach(genero=> { %>
+                <section id="<%= genero.toLowerCase().replace(/ /g, '-') %>">
+                    <h2 class="h2-separador">
+                        <%= genero %>
+                    </h2>
+                    <div class="contenedor-libros">
+                        <% const libros=librosPorGenero[genero] || []; %>
+                            <% if (libros.length===0) { %>
+                                <p>No hay libros en esta categoría.</p>
+                                <% } else { %>
+                                    <% libros.forEach(libro=> { %>
+                                        <%- include("../partials/tarjeta-libro.ejs", { libro }) %>
+                                            <% }); %>
+                                                <% } %>
+                    </div>
+                </section>
+                <% }); %>
         </main>
 
         <%- include("../partials/footer.ejs") %>

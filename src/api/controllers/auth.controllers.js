@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import UsuarioModels from "../models/user.models.js";
+import RegistroModels from "../models/log.models.js";
 
 export const loginView = (req, res) => {
     res.render("admin/login", {
@@ -9,11 +10,6 @@ export const loginView = (req, res) => {
     });
 };
 
-/*
-email
-contrasenia
-es_admin
-*/
 export const processLoginInfo = async (req, res) => {
     try {
         const { email, contrasenia } = req.body;
@@ -40,8 +36,6 @@ export const processLoginInfo = async (req, res) => {
         }
 
         const match = await bcrypt.compare(contrasenia, usuario.contrasenia);
-        //console.log("Contrseña hasheada:", usuario.contrasenia);
-        //console.log(match);
 
         if (!match) {
             return res.render("admin/login", {
@@ -52,7 +46,10 @@ export const processLoginInfo = async (req, res) => {
             });
         }
 
+        await RegistroModels.crearRegistroNuevo(usuario.id, usuario.email);
+        
         console.log(`✅ - Login exitoso: ${email}`)
+
         req.session.usuario = { id: usuario.id, email: usuario.email }
     
         res.redirect("/admin/dashboard");

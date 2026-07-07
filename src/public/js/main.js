@@ -1,18 +1,20 @@
 // ===== FUNCIONALIDAD DE CAMBIO DE TEMA =====
 function configurarTema() {
-    const btn = document.getElementById('btn-tema');
-    const temaGuardado = localStorage.getItem('tema') || 'light';
+    const btn = document.getElementById("btn-tema");
+    const temaGuardado = localStorage.getItem("tema") || "light";
 
-    if (temaGuardado === 'dark') {
-        document.body.classList.add('dark-mode');
+    if (temaGuardado === "dark") {
+        document.body.classList.add("dark-mode");
         btn.textContent = '☀️';
     }
 
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        const esOscuro = document.body.classList.contains('dark-mode');
+    btn.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+
+        const esOscuro = document.body.classList.contains("dark-mode");
+
         btn.textContent = esOscuro ? '☀️' : '🌑';
-        localStorage.setItem('tema', esOscuro ? 'dark' : 'light');
+        localStorage.setItem("tema", esOscuro ? "dark" : "light");
     });
 }
 
@@ -36,6 +38,7 @@ function eliminarProducto(id) {
     if (!producto) return;
     
     carrito = carrito.filter(item => item.id !== id);
+
     guardarCarrito(carrito);
     cargarProductosCarrito();
 }
@@ -87,6 +90,11 @@ function obtenerNombreUsuario() {
 function limpiarLocal() {
     localStorage.removeItem("carrito");
     localStorage.removeItem("nombre_usuario");
+    localStorage.removeItem("ultima-venta");
+}
+
+function variaCarrito() {
+    localStorage.removeItem("carrito");
     localStorage.removeItem("ultima-venta");
 }
 

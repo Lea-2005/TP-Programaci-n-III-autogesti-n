@@ -22,8 +22,8 @@ function configurarValidacionEmail() {
     });
 }
 
-async function enviarEncuesta(event) {
-    event.preventDefault();
+async function enviarEncuesta(evento) {
+    evento.preventDefault();
 
     const emailInput = document.getElementById("email");
     const email = emailInput.value.trim();

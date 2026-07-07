@@ -1,0 +1,22 @@
+<div class="tarjeta-libro <%= libro.activo ? '' : 'inactivo' %>">
+    <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
+    <div class="informacion-libro">
+        <h2>
+            <%= libro.titulo %>
+        </h2>
+        <p>Id: <%= libro.id %>
+        </p>
+        <p>Precio: <%= libro.precio %>
+        </p>
+        <p>Estado: <%= libro.activo ? '✅ Activo' : '❌ Inactivo' %>
+        </p>
+    </div>
+    <div class="btn-acciones">
+        <% if (libro.activo) { %>
+            <a href="/admin/editar/<%= libro.id %>" class="btn-editar">Editar libro</a>
+            <% } %>
+                <a href="#" class="btn-estado" data-id="<%= libro.id %>">
+                    <%= libro.activo ? 'Desactivar' : 'Activar' %>
+                </a>
+    </div>
+</div>

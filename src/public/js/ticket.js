@@ -65,7 +65,7 @@ async function salir() {
     } catch (error) {
         console.error("Error al estar saliendo de la pantalla de ticket", error);
     }
-   limpiarLocal();
+    variaCarrito();
     window.location.href = "/encuesta";
 }
 

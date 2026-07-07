@@ -53,6 +53,13 @@ const alternarEstadoLibro = async (id, activo) => {
     return libroAlternado;
 }
 
+const eliminarLibroExistente = async (id) => {
+    const libroEliminado = await Libros.destroy({
+        where: { id }
+    });
+    return libroEliminado;
+}
+
 export default {
     // CLIENTE:
     seleccionarLibrosActivos,
@@ -62,5 +69,6 @@ export default {
     seleccionarLibroPorId,
     insertarNuevoLibro,
     editarLibro,
-    alternarEstadoLibro
+    alternarEstadoLibro,
+    eliminarLibroExistente
 };

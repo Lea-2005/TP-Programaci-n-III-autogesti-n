@@ -21,7 +21,7 @@ CREATE TABLE usuarios (
 CREATE TABLE ventas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(50) NOT NULL,
-    fecha DATE NOT NULL,
+    fecha DATETIME  NOT NULL,
     precio_total DECIMAL(10,2) NOT NULL
 );
 

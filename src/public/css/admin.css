@@ -23,10 +23,11 @@
   /* --- Colores de acento (botones, enlaces, etc) --- */
   --color-primario: #3498db;
   --color-primario-oscuro: #2980b9;
-  --color-exito: #27ae60;
+  /*
+  --color-exito: #27ae60;*/
   --color-peligro: #e74c3c;
   --color-peligro-oscuro: #c0392b;
-  --color-advertencia: #f39c12;
+  /*--color-advertencia: #f39c12;*/
   --color-advertencia-oscuro: #d68910;
 
   /* --- Estados de los libros (activo/inactivo) --- */
@@ -160,6 +161,13 @@ main {
   margin-left: 220px;
   padding: 2rem;
   flex: 1;
+}
+
+.pg-titulo {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-texto-primario);
+    text-align: center;
 }
 
 /* ----- LOGIN ----- */
@@ -454,6 +462,113 @@ main {
 .btn-estado:active {
   transform: scale(0.95);
 }
+
+/* ----- FORMULARIOS (CREAR / EDITAR / ELIMINAR) ----- */
+.form-libro {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--color-fondo-tarjeta);
+  padding: 2rem;
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+  border: 1px solid var(--color-borde);
+}
+
+.form-libro .campo {
+  margin-bottom: 1.5rem;
+}
+
+.form-libro label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--color-texto-principal);
+}
+
+.form-libro input[type="text"],
+.form-libro input[type="number"],
+.form-libro select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.form-libro input:focus,
+.form-libro select:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+.form-libro input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.5rem;
+  accent-color: var(--color-primario);
+  cursor: pointer;
+}
+
+.form-libro .campo-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-libro .campo-checkbox label {
+  margin: 0;
+  font-weight: 500;
+}
+
+.form-libro small {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.85rem;
+}
+
+/* ------ Botones del formulario ----- */
+.btn-acciones-form {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-guardar, .btn-cancelar {
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  padding: 0.7rem 2rem;
+  border-radius: var(--radio-borde);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-guardar:hover, .btn-cancelar:hover {
+  background: var(--color-primario-oscuro);
+}
+
+#btn-eliminar {
+  background: var(--color-peligro);
+  color: white;
+  border: none;
+  padding: 0.7rem 2rem;
+  border-radius: var(--radio-borde);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#btn-eliminar:hover {
+  background: var(--color-peligro-oscuro);
+}
+
 
 /* ----- FOOTER ----- */
 footer {

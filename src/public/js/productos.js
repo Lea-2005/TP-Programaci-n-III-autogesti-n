@@ -108,8 +108,8 @@ function generarHTMLPaginacion(inicio, fin, total) {
         </div>
 
         <div class="paginacion-botones">
-            <button class="btn-pagina" onclick="irPagina(1)" ${paginaActual === 1 ? 'disabled' : ''}>«</button>
-            <button class="btn-pagina" onclick="cambiarPagina(-1)" ${paginaActual === 1 ? 'disabled' : ''}>‹</button>
+            <button class="btn-pagina" onclick="irPagina(1)" ${paginaActual === 1 ? "disabled" : ""}>«</button>
+            <button class="btn-pagina" onclick="cambiarPagina(-1)" ${paginaActual === 1 ? "disabled" : ""}>‹</button>
     `;
 
     const inicioNumero = Math.max(1, (paginaActual - 2));
@@ -117,6 +117,7 @@ function generarHTMLPaginacion(inicio, fin, total) {
 
     for (let i = inicioNumero; i <= finNumero; i++) {
         const activo = i === paginaActual ? "activo" : "";
+
         plantillaHTML += `
                 <button class="btn-numero ${activo}" onclick="irPagina(${i})">${i}</button>
         `;
@@ -136,7 +137,7 @@ function actualizarPaginacion() {
     const total = listaLibrosFiltrados.length;
 
     if (total === 0) {
-        document.querySelectorAll(".contenedor-paginacion").forEach(p => p.innerHTML = "");
+        document.querySelectorAll(".contenedor-paginacion").forEach(pagina => pagina.innerHTML = "");
         return;
     }
 
@@ -145,7 +146,7 @@ function actualizarPaginacion() {
 
     const plantillaHTML = generarHTMLPaginacion(inicio, fin, total);
 
-    document.querySelectorAll(".contenedor-paginacion").forEach(p => p.innerHTML = plantillaHTML);
+    document.querySelectorAll(".contenedor-paginacion").forEach(pagina => pagina.innerHTML = plantillaHTML);
 }
 
 function renderizarPagina() {
@@ -185,8 +186,8 @@ function cambiarPagina(delta) {
 
 function configurarBotonesCarrito() {
     document.querySelectorAll(".btn-agregar").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const id = parseInt(e.target.dataset.id);
+        btn.addEventListener("click", (evento) => {
+            const id = parseInt(evento.target.dataset.id);
             const libro = listaLibros.find(unidad => unidad.id === id);
 
             if (libro) {
@@ -201,12 +202,13 @@ function configurarBotonesCategorias() {
     const botones = document.querySelectorAll(".categoria-btn");
     const buscador = document.getElementById("buscador");
 
-    botones.forEach(btn => {
-        btn.addEventListener("click", () => {
+    botones.forEach(boton => {
+        boton.addEventListener("click", () => {
             botones.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
 
-            generoActual = btn.dataset.categoria.toLowerCase();
+            boton.classList.add("active");
+
+            generoActual = boton.dataset.categoria.toLowerCase();
 
             buscador.value = "";
             aplicarFiltros();

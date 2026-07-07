@@ -4,12 +4,26 @@ export const dashboardView = async (req, res) => {
     try {
         console.log(`📊 - Cargando dashboard...`);
         const libros = await BookModels.seleccionarTodosLosLibros();
+        const generos = new Set(libros.map(libro => libro.genero)); // Obtiene los nombres de los géneros existentes.
+
+        // Datos para las estadisticas iniciales.
+        const totalLibros = libros.length;
+        const activos = libros.filter(libro => libro.activo).length;
+        const inactivos = totalLibros - activos;
+
+        // Datos para agrupar por géneros y así no repetir tanto código.
+        const librosPorGenero = {};
+        generos.forEach(genero => {
+            librosPorGenero[genero] = libros.filter(libro => libro.genero === genero);
+        });
 
         console.log(`📚 - ${libros.length} libros cargados.`);
         res.render("admin/dashboard", {
             titulo: "Dashboard",
             detalle: "Dashboard de libros",
-            librosArray: libros,
+            generos: generos,                
+            librosPorGenero,                 
+            estadisticas: { totalLibros, activos, inactivos },
             error: null,
             rutaActual: "dashboard"
         });
@@ -50,8 +64,17 @@ export const editarLibroView = async (req, res) => {
     }
 }
 
+export const registrosView = (req, res) => {
+    res.render("admin/registros", {
+        titulo: "Registros",
+        detalle: "Registros y estadísticas",
+        rutaActual: "registros"
+    });
+};
+
 export default {
     dashboardView,
     crearLibroView,
-    editarLibroView
+    editarLibroView,
+    registrosView
 }

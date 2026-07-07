@@ -2,8 +2,8 @@ function configurarFormularioBienvenida() {
     const form = document.getElementById("form-bienvenida");
     const input = document.getElementById("nombre-usuario");
 
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
+    form.addEventListener("submit", (evento) => {
+        evento.preventDefault();
 
         const nombre = input.value.trim();
         if (!nombre) {

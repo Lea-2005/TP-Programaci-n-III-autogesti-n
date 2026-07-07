@@ -96,16 +96,18 @@ function cargarProductosCarrito() {
 // ===== FUNCIONALIDAD DE LOS EVENTOS DEL CARRITO =====
 function configurarEventosCarrito() {
     document.querySelectorAll(".select-cantidad").forEach(select => {
-        select.addEventListener("change", (e) => {
-            const id = parseInt(e.target.dataset.id);
-            const nuevaCantidad = parseInt(e.target.value);
+        select.addEventListener("change", (evento) => {
+            const id = parseInt(evento.target.dataset.id);
+            const nuevaCantidad = parseInt(evento.target.value);
+
             actualizarCantidad(id, nuevaCantidad);
         });
     });
 
-    document.querySelectorAll(".btn-eliminar-producto").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const id = parseInt(e.target.dataset.id);
+    document.querySelectorAll(".btn-eliminar-producto").forEach(boton => {
+        boton.addEventListener("click", (evento) => {
+            const id = parseInt(evento.target.dataset.id);
+
             eliminarProducto(id);
         });
     });
