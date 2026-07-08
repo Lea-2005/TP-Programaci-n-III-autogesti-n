@@ -179,6 +179,7 @@ const Registros = sequelize.define("Registros", {
     tableName: "registros",
     timestamps: false
 });
+
 // ====== RELACIONES ======
 Ventas.belongsToMany(Libros, {
     through: VentasLibros,
@@ -187,7 +188,7 @@ Ventas.belongsToMany(Libros, {
 
 Libros.belongsToMany(Ventas, {
     through: VentasLibros,
-    foreignKey: "id_venta"
+    foreignKey: "id_libro"
 });
 
 VentasLibros.belongsTo(Libros, {

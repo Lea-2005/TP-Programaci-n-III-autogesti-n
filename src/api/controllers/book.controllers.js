@@ -1,4 +1,5 @@
 import BookModels from "../models/book.models.js";
+import { VentasLibros } from "../models/general.models.js";
 
 export const obtenerLibrosActivos = async (req, res) => {
     try {
@@ -111,9 +112,11 @@ export const eliminarLibro = async (req, res) => {
         const { id } = req.params;
         console.log(`🗑 - Eliminado libro con ID: ${id}`)
 
-        const libro = BookModels.eliminarLibroExistente(id);
+        await VentasLibros.destroy({ where: { id_libro: id }});
+
+        const filasAfectadas = BookModels.eliminarLibroExistente(id);
     
-        if (!libro) {
+        if (filasAfectadas === 0) {
             return res.status(404).json({
                 mensaje: "Libro no encontrado."
             });
@@ -121,7 +124,7 @@ export const eliminarLibro = async (req, res) => {
 
         console.log(`✅ - Libro con ID ${id} eliminado.`)
         res.status(200).json({
-            payload: libro
+            payload: filasAfectadas
         });
     } catch (error) {
         console.error("❌ - Error eliminado libro por ID:", error);

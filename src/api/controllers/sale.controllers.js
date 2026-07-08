@@ -88,7 +88,7 @@ export const exportarVentasExcel = async (req, res) => {
             "Cliente": venta.nombre_usuario,
             "Fecha": new Date(venta.fecha).toLocaleString("es-AR"),
             "Total": `$${venta.precio_total}`,
-            "Productos": venta.Libros.map(libro => `${libro.titulo} (x${libro.VentasLibros.cantidad})`).join(',')
+            "Productos": venta.Libros.map(libro => `${libro.titulo} (x${libro.VentasLibros.cantidad})`).join(', ')
         }));
 
         const libroExcel = XLSX.utils.book_new(); // Crea un libro de Excel vacío en la memoria. 
