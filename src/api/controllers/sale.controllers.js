@@ -1,4 +1,6 @@
 import SaleModels from "../models/sale.models.js";
+import { Libros } from "../models/general.models.js";
+import XLSX from "xlsx"; // se importa la biblioteca con la que se podrá trabajar con archivos de Excel.
 
 export const crearVenta = async (req, res) => {
     try {
@@ -69,6 +71,49 @@ export const obtenerTopVentasCaras = async (req, res) => {
         console.error("❌ - Error al obtener top libros:", error);
         res.status(500).json({
             mensaje: "Error interno."
+        });
+    }
+}
+
+export const exportarVentasExcel = async (req, res) => {
+    try {
+        const ventas = await SaleModels.obtenerTodasLasVentas();
+
+        /*
+        Se formatean los datos para el Excel, siendo por ejemplo:
+        ID venta: 1  |  Cliente: Leandro  |  Fecha: __  |  Total: $25000  |  Poductos: tituloLibro (x4)
+        */
+        const data = ventas.map(venta => ({
+            "ID venta": venta.id,
+            "Cliente": venta.nombre_usuario,
+            "Fecha": new Date(venta.fecha).toLocaleString("es-AR"),
+            "Total": `$${venta.precio_total}`,
+            "Productos": venta.Libros.map(libro => `${libro.titulo} (x${libro.VentasLibros.cantidad})`).join(',')
+        }));
+
+        const libroExcel = XLSX.utils.book_new(); // Crea un libro de Excel vacío en la memoria. 
+        const datosExcel = XLSX.utils.json_to_sheet(data); // Crea una hoja con la información de `data`.
+
+        XLSX.utils.book_append_sheet(libroExcel, datosExcel, "Ventas");  // Agrega la hoja al libro y la nombra "Ventas".
+
+        const archivoExcel = XLSX.write(libroExcel, {
+            type: "buffer", bookType: "xlsx"
+        }); // Con XLSX.write creamos el archivo de Excel (con datos binario) a partir del libro de Excel generado anteriormente.
+
+        res.setHeader("Content-Disposition", `attachment; filename=ventas-${Date.now()}.xlsx`);
+        // Establecemos una cabecera HTTP y le indicamos al navegador descargar el archivo.
+
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        // Esta línea avisa al navegador que el archivo que va a descargar es una hoja de cálculo de Excel moderna (archivo .xlsx).
+
+        // Se envía la respuesta:
+        res.send(archivoExcel);
+
+        console.log(`📗 - Excel de ventas exportado: ${ventas.length} registros.`);
+    } catch (error) {
+        console.error("❌ - Error al exportar Excel:", error);
+        res.status(500).json({
+            error: "Error al generar el archivo Excel."
         });
     }
 }

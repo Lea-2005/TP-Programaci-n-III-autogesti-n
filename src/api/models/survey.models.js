@@ -12,6 +12,14 @@ const crearNuevaEncuesta = async (email, comentario, puntuacion, suscripcion, im
     return encuestaNueva.id;
 } 
 
+const obtenerTodasLasEncuestas = async () => {
+    const encuestas = await Encuestas.findAll({
+        order: [["fecha", "DESC"]]
+    });
+    return encuestas;
+}
+
 export default {
-    crearNuevaEncuesta
+    crearNuevaEncuesta,
+    obtenerTodasLasEncuestas
 }

@@ -19,6 +19,19 @@ const crearNuevaVenta = async (nombreUsuario, precioTotal, libros) => {
     return nuevaVenta.id;
 }
 
+const obtenerTodasLasVentas = async () => {
+    const ventas = await Ventas.findAll({
+        include: [{
+            model: Libros,
+            through: {
+                attributes: ["cantidad", "precio_unitario"]
+            }
+        }],
+        order: [["fecha", "DESC"]]
+    });
+    return ventas;
+}
+
 const calcularPromedioPrecio = async () => {
     const promedioPrecio = await Ventas.findOne({
         attributes: [[sequelize.fn(
@@ -92,5 +105,6 @@ export default {
     crearNuevaVenta,
     obtenerEstadisticasNuevas,
     obtenerTopLibrosVendidosNuevos,
-    obtenerTopVentasCarasNuevas
+    obtenerTopVentasCarasNuevas,
+    obtenerTodasLasVentas
 }
